@@ -1,0 +1,7 @@
+﻿services:
+  finshark.api:
+    image: finshark.api
+    build:
+      context: .
+      dockerfile: FinShark.API/Dockerfile
+
