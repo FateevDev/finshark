@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System.Runtime.InteropServices.JavaScript;
 using Sandbox;
 
 var helloWorld = "Hello World";
@@ -35,8 +34,20 @@ rat2.Age = 12;
 rat2.IsRadioactive = false;
 rat2.Color = "Blue";
 
+Rat rat3 = new()
+{
+    Name = "Wilma",
+    Age = 15,
+    IsRadioactive = false,
+    Color = "Green"
+};
+
 Console.WriteLine(rat1.TimeToLive());
+Console.WriteLine(rat1.Nickname());
 Console.WriteLine(rat2.TimeToLive());
+Console.WriteLine(rat2.Nickname());
+Console.WriteLine(rat3.TimeToLive());
+Console.WriteLine(rat3.Nickname());
 
 // File.ReadAllText()
 // b.StartsWith('+');
@@ -57,8 +68,9 @@ string Text(string an)
     return an;
 }
 
-int GetCurrentYear() {
+int GetCurrentYear()
+{
     var currentDate = DateTime.Now;
 
-    return Convert.ToInt32(currentDate.ToString("yyyy-MM-dd").Substring(0,4));
+    return Convert.ToInt32(currentDate.ToString("yyyy-MM-dd").Substring(0, 4));
 }

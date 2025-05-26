@@ -14,6 +14,8 @@ public class Rat
     {
         return MaxRatAge - (IsRadioactive ? Age * RadioactiveMaxRatAge : Age);
     }
+    
+    public string Nickname() => $"The {Name} {Color}";
 }
 
 public class BigRat : Rat
