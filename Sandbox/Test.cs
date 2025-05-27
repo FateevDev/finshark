@@ -107,3 +107,44 @@ class App
         Console.WriteLine(result);
     }
 }
+
+class TupleTest
+{
+    public static void Main()
+    {
+        (int First, string, char) tuple = (First: 1, "2ll", 'l');
+
+        Console.WriteLine(tuple);
+        Console.WriteLine(tuple.First);
+        Console.WriteLine(tuple.Item2);
+        Console.WriteLine(Test());
+        Console.WriteLine(Test().second);
+
+        (int a, string b) = Test();
+        Console.WriteLine(b);
+    }
+
+    public static (int, string second) Test()
+    {
+        return (1, "2ll111");
+    }
+}
+
+class NullTest
+{
+    public static void Main()
+    {
+        int? a = null;
+        string? str = null;
+        string str1 = null;
+        string str2 = null!;
+        Console.WriteLine(str?.Length);
+        Console.WriteLine(str ?? "test");
+        Console.WriteLine(a);
+
+        if (str1 != null)
+        {
+            Console.WriteLine(str1.Length);
+        }
+    }
+}

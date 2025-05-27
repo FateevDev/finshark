@@ -20,27 +20,17 @@ object obj = 1;
 // App.ArrayCrud();
 // App.SwitchExpressions(MyEnum.CodeBlue);
 
-Rat rat1 = new Rat();
-Rat rat2 = new BigRat();
 
 
-rat1.Name = "Fred";
-rat1.Age = 10;
-rat1.IsRadioactive = true;
-rat1.Color = "Red";
-
-rat2.Name = "Barney";
-rat2.Age = 12;
-rat2.IsRadioactive = false;
-rat2.Color = "Blue";
-
-Rat rat3 = new()
-{
-    Name = "Wilma",
-    Age = 15,
-    IsRadioactive = false,
-    Color = "Green"
-};
+Rat rat1 = new Rat("Fred", 10, "Red", true);
+Rat rat2 = new BigRat("Barney", 12, "Blue", false);
+Rat rat3 = new("Wilma", 15, "Green", false);
+// {
+//     Name = "Wilma",
+//     Age = 15,
+//     IsRadioactive = false,
+//     Color = "Green"
+// };
 
 Console.WriteLine(rat1.TimeToLive());
 Console.WriteLine(rat1.Nickname());
