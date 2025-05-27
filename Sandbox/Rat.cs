@@ -8,17 +8,23 @@ public class Rat
 
     public string Name { get; set; }
     public string Color { get; set; }
-    public int Age { get; set; }
+
+    public int Age
+    {
+        get => _age; 
+        set => _age = value > MaxRatAge ? MaxRatAge : value;
+    }
     public bool IsRadioactive { get; set; }
+    private int _age;
 
     public Rat() : this("Unknown", 0, null, null)
     {
     }
-    
+
     public Rat(string name, int age, string? color, bool? isRadioactive)
     {
         Name = name;
-        Age = age;
+        _age = age;
         Color = color ?? DefaultColor;
         IsRadioactive = isRadioactive ?? false;
     }
@@ -34,8 +40,8 @@ public class Rat
 public class BigRat : Rat
 {
     protected override int MaxRatAge => 100;
-    
-    public BigRat(string name, int age, string? color, bool? isRadioactive) 
+
+    public BigRat(string name, int age, string? color, bool? isRadioactive)
         : base(name, age, color, isRadioactive)
     {
     }
