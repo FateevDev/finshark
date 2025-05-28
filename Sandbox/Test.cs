@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+
 namespace Sandbox;
 
 enum MyEnum
@@ -148,3 +150,37 @@ class NullTest
         }
     }
 }
+
+static class StaticTest
+{
+    public static void Time() => Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+}
+
+class ListTest
+{
+    public static void ListCrud()
+    {
+        // no types check
+        // ArrayList list1 = new ArrayList();
+
+        //Create
+        List<int> list = [1, 2, 3, 4];
+
+        //Update
+        list.Add(1);
+        list.Insert(0, 55);
+
+        //Delete
+        var newList = list.Where(number => number > 2).ToList();
+        list.RemoveAt(0);
+
+        //Read
+        list.ForEach(number => Console.WriteLine(number));
+        Console.WriteLine("\n");
+        newList.ForEach(number => Console.WriteLine(number));
+    }
+}
+
+public record TestR(string FirstName, string LastName, ImmutableArray<string> PhoneNumbers);
+
+public delegate int SuperFunc(int x);

@@ -24,7 +24,7 @@ public class Rat
     public Rat(string name, int age, string? color, bool? isRadioactive)
     {
         Name = name;
-        _age = age;
+        Age = age;
         Color = color ?? DefaultColor;
         IsRadioactive = isRadioactive ?? false;
     }
