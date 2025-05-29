@@ -22,4 +22,4 @@ package-add:
 	dotnet add $(PROJECT_FILE) package $(PACKAGE_NAME)
 
 migrations-create:
-	dotnet ef migrations add Init
+	dotnet tool run dotnet-ef migrations add Init --project $(PROJECT_FILE)
