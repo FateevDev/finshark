@@ -20,3 +20,6 @@ PACKAGE_NAME := $(filter-out package-add,$(MAKECMDGOALS))
 	@:
 package-add:
 	dotnet add $(PROJECT_FILE) package $(PACKAGE_NAME)
+
+migrations-create:
+	dotnet ef migrations add Init
