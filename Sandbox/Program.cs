@@ -3,6 +3,14 @@
 using System.Collections.Immutable;
 using Sandbox;
 
+var twoSum = new Solution().TwoSum([2, 3, 11, 15, 7], 9);
+
+// Array.ForEach(twoSum, x => Console.WriteLine(x));
+
+Console.WriteLine(Solution.CheckDuplicates(new[] { 1, 2, 3, 1 }));
+
+Environment.Exit(1);
+
 var helloWorld = "Hello World";
 var test = """
            some text
@@ -69,6 +77,8 @@ Console.WriteLine(sf(555));
 var list = Enumerable.Range(1, 10).Select(x => x * 2).ToList();
 
 list.ForEach(x => Console.WriteLine(x));
+
+TestDTO test33 = new("test1", "test2");
 
 // Console.WriteLine(rat1.TimeToLive());
 // Console.WriteLine(rat1.Nickname());

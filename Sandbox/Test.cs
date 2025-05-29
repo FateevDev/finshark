@@ -181,6 +181,16 @@ class ListTest
     }
 }
 
+
+
 public record TestR(string FirstName, string LastName, ImmutableArray<string> PhoneNumbers);
+
+public record TestDTO(string FirstName, string LastName);
+
+public record TestDTO1
+{
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
+}
 
 public delegate int SuperFunc(int x);
