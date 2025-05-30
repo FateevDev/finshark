@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace FinShark.API.Models;
 
 public class Comment
 {
     public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public string Content { get; set; } = string.Empty;
+    [MaxLength(255)] public string Title { get; set; } = string.Empty;
+    [MaxLength(4000)] public string Content { get; set; } = string.Empty;
 
     public DateTime CreatedOn { get; set; } = DateTime.Now;
 

@@ -23,7 +23,7 @@ package-add:
 
 migrations-create:
 	dotnet tool run dotnet-ef migrations add Init --project $(PROJECT_FILE)
-migrations-update:
+migrations-apply:
 	dotnet tool run dotnet-ef database update --project $(PROJECT_FILE)
 migrations-status:
 	dotnet ef migrations list --project $(PROJECT_FILE)
