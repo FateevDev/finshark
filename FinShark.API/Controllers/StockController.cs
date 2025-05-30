@@ -40,12 +40,28 @@ public class StockController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] CreateStockRequest stockDto)
+    public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
     {
         var stock = stockDto.ToStockFromCreateRequest();
         _dbContext.Stocks.Add(stock);
         _dbContext.SaveChanges();
 
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
+    {
+        var stock = _dbContext.Stocks.Find(id);
+
+        if (stock == null)
+        {
+            return NotFound();
+        }
+
+        stock.UpdateFromRequest(stockDto);
+        _dbContext.SaveChanges();
+
+        return Ok(stock.ToStockDto());
     }
 }

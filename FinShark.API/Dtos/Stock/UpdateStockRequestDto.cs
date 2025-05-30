@@ -1,6 +1,6 @@
 namespace FinShark.API.Dtos.Stock;
 
-public class CreateStockRequest
+public class UpdateStockRequestDto
 {
     public string Symbol { get; init; } = string.Empty;
     public string CompanyName { get; init; } = string.Empty;

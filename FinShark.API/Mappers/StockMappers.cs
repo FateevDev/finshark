@@ -19,7 +19,7 @@ public static class StockMappers
         };
     }
 
-    public static Stock ToStockFromCreateRequest(this CreateStockRequest stockDto)
+    public static Stock ToStockFromCreateRequest(this CreateStockRequestDto stockDto)
     {
         return new Stock
         {
@@ -30,5 +30,15 @@ public static class StockMappers
             Industry = stockDto.Industry,
             MarketCap = stockDto.MarketCap
         };
+    }
+
+    public static void UpdateFromRequest(this Stock stock, UpdateStockRequestDto stockDto)
+    {
+        stock.Symbol = stockDto.Symbol;
+        stock.CompanyName = stockDto.CompanyName;
+        stock.Purchase = stockDto.Purchase;
+        stock.LastDiv = stockDto.LastDiv;
+        stock.Industry = stockDto.Industry;
+        stock.MarketCap = stockDto.MarketCap;
     }
 }
