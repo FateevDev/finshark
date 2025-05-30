@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Dtos\Comment\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 
