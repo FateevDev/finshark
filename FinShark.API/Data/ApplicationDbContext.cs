@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.API.Data;
 
-public class ApplicationDBContext : DbContext
+public class ApplicationDbContext : DbContext
 {
-    public ApplicationDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+    public ApplicationDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
     {
     }
     
