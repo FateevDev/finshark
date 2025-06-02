@@ -1,26 +1,18 @@
-using FinShark.API.Data;
 using FinShark.API.Dtos.Stock;
 using FinShark.API.Mappers;
+using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.API.Controllers;
 
 [ApiController]
 [Route("api/stock")]
-public class StockController : ControllerBase
+public class StockController(IStockRepository repository) : ControllerBase
 {
-    private readonly ApplicationDbContext _dbContext;
-
-    public StockController(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var stocks = await _dbContext.Stocks.ToListAsync();
+        var stocks = await repository.GetAllAsync();
         var stockDtos = stocks.Select(stock => stock.ToStockDto());
 
         return Ok(stockDtos);
@@ -29,12 +21,7 @@ public class StockController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var stock = await _dbContext.Stocks.FindAsync(id);
-
-        if (stock == null)
-        {
-            return NotFound();
-        }
+        var stock = await repository.GetByIdAsync(id);
 
         return Ok(stock.ToStockDto());
     }
@@ -43,8 +30,7 @@ public class StockController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
     {
         var stock = stockDto.ToStockFromCreateRequest();
-        await _dbContext.Stocks.AddAsync(stock);
-        await _dbContext.SaveChangesAsync();
+        await repository.CreateAsync(stock);
 
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
     }
@@ -52,15 +38,7 @@ public class StockController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
     {
-        var stock = await _dbContext.Stocks.FindAsync(id);
-
-        if (stock == null)
-        {
-            return NotFound();
-        }
-
-        stock.UpdateFromRequest(stockDto);
-        await _dbContext.SaveChangesAsync();
+        var stock = await repository.UpdateAsync(id, stockDto);
 
         return Ok(stock.ToStockDto());
     }
@@ -68,15 +46,7 @@ public class StockController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var stock = await _dbContext.Stocks.FindAsync(id);
-
-        if (stock == null)
-        {
-            return NotFound();
-        }
-
-        _dbContext.Stocks.Remove(stock);
-        await _dbContext.SaveChangesAsync();
+        await repository.DeleteByIdAsync(id);
 
         return NoContent();
     }
