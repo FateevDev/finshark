@@ -2,6 +2,7 @@ using FinShark.API.Data;
 using FinShark.API.Dtos.Stock;
 using FinShark.API.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.API.Controllers;
 
@@ -17,19 +18,18 @@ public class StockController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var stocks = _dbContext.Stocks
-            .ToList()
-            .Select(stock => stock.ToStockDto());
+        var stocks = await _dbContext.Stocks.ToListAsync();
+        var stockDtos = stocks.Select(stock => stock.ToStockDto());
 
-        return Ok(stocks);
+        return Ok(stockDtos);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetById([FromRoute] int id)
+    public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var stock = _dbContext.Stocks.Find(id);
+        var stock = await _dbContext.Stocks.FindAsync(id);
 
         if (stock == null)
         {
@@ -40,19 +40,19 @@ public class StockController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] CreateStockRequestDto stockDto)
+    public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
     {
         var stock = stockDto.ToStockFromCreateRequest();
-        _dbContext.Stocks.Add(stock);
-        _dbContext.SaveChanges();
+        await _dbContext.Stocks.AddAsync(stock);
+        await _dbContext.SaveChangesAsync();
 
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
     {
-        var stock = _dbContext.Stocks.Find(id);
+        var stock = await _dbContext.Stocks.FindAsync(id);
 
         if (stock == null)
         {
@@ -60,15 +60,15 @@ public class StockController : ControllerBase
         }
 
         stock.UpdateFromRequest(stockDto);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return Ok(stock.ToStockDto());
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var stock = _dbContext.Stocks.Find(id);
+        var stock = await _dbContext.Stocks.FindAsync(id);
 
         if (stock == null)
         {
@@ -76,7 +76,7 @@ public class StockController : ControllerBase
         }
 
         _dbContext.Stocks.Remove(stock);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
 
         return NoContent();
     }
