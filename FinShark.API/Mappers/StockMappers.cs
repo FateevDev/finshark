@@ -7,16 +7,15 @@ public static class StockMappers
 {
     public static StockDto ToStockDto(this Stock stockModel)
     {
-        return new StockDto
-        {
-            Id = stockModel.Id,
-            Symbol = stockModel.Symbol,
-            CompanyName = stockModel.CompanyName,
-            Purchase = stockModel.Purchase,
-            LastDiv = stockModel.LastDiv,
-            Industry = stockModel.Industry,
-            MarketCap = stockModel.MarketCap
-        };
+        return new StockDto(
+            stockModel.Id,
+            stockModel.Symbol,
+            stockModel.CompanyName,
+            stockModel.Purchase,
+            stockModel.LastDiv,
+            stockModel.Industry,
+            stockModel.MarketCap
+        );
     }
 
     public static Stock ToStockFromCreateRequest(this CreateStockRequestDto stockDto)
