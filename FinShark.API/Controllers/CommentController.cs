@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinShark.API.Controllers;
 
 [ApiController]
-[Route("api/comment")]
+[Route("api/comments")]
 public class CommentController(ICommentRepository repository) : ControllerBase
 {
     [HttpGet]

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinShark.API.Controllers;
 
 [ApiController]
-[Route("api/stock")]
+[Route("api/stocks")]
 public class StockController(IStockRepository repository) : ControllerBase
 {
     [HttpGet]
