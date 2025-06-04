@@ -9,11 +9,11 @@ check:
 check-fix:
 	dotnet format
 packages-list:
-	dotnet list package
+	dotnet list $(PROJECT_FILE) package
 packages-list-outdated:
-	dotnet list package --outdated
+	dotnet list $(PROJECT_FILE) package --outdated
 packages-update:
-	dotnet add package PackageName --version latest
+	dotnet add $(PROJECT_FILE) package PackageName --version latest
 
 PACKAGE_NAME := $(filter-out package-add,$(MAKECMDGOALS))
 %:

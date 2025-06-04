@@ -1,14 +1,15 @@
+using Asp.Versioning;
 using FinShark.API.Dtos.Comment;
 using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinShark.API.Controllers;
+namespace FinShark.API.Controllers.v1;
 
-[ApiController]
-[Route("api/comments")]
-public class CommentController(ICommentRepository repository) : ControllerBase
+[ApiVersion("1.0")]
+[ControllerName("comments")]
+public class CommentController(ICommentRepository repository) : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()

@@ -1,14 +1,15 @@
+using Asp.Versioning;
 using FinShark.API.Dtos.Stock;
 using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinShark.API.Controllers;
+namespace FinShark.API.Controllers.v1;
 
-[ApiController]
-[Route("api/stocks")]
-public class StockController(IStockRepository repository) : ControllerBase
+[ApiVersion("1.0")]
+[ControllerName("stocks")]
+public class StockController(IStockRepository repository) : BaseController
 {
     [HttpGet]
     public async Task<IActionResult> GetAll()
