@@ -1,3 +1,5 @@
+using FinShark.API.Dtos.Comment;
+
 namespace FinShark.API.Dtos.Stock;
 
 public record StockDto(
@@ -7,5 +9,6 @@ public record StockDto(
     decimal Purchase,
     decimal LastDiv,
     string Industry,
-    long MarketCap
+    long MarketCap,
+    List<CommentDto> Comments
 );

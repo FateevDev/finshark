@@ -11,12 +11,14 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 {
     public async Task<List<Stock>> GetAllAsync()
     {
-        return await dbContext.Stocks.ToListAsync();
+        return await dbContext.Stocks.Include(stock => stock.Comments).ToListAsync();
     }
 
     public async Task<Stock> GetByIdAsync(int id)
     {
-        var stock = await dbContext.Stocks.FindAsync(id);
+        var stock = await dbContext.Stocks
+            .Include(stock => stock.Comments)
+            .FirstOrDefaultAsync(stock => stock.Id == id);
 
         if (stock == null)
         {

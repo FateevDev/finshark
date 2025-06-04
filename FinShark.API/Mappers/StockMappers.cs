@@ -14,7 +14,8 @@ public static class StockMappers
             stockModel.Purchase,
             stockModel.LastDiv,
             stockModel.Industry,
-            stockModel.MarketCap
+            stockModel.MarketCap,
+            stockModel.Comments.Select(comment =>  comment.ToCommentDto()).ToList()
         );
     }
 
