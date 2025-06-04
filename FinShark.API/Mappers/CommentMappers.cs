@@ -16,14 +16,14 @@ public static class CommentMappers
         );
     }
 
-    public static Comment ToCommentFromCreateRequest(this CreateCommentRequestDto dto)
+    public static Comment ToCommentFromCreateRequest(this CreateCommentRequestDto dto, int stockId)
     {
         return new Comment
         {
             Title = dto.Title,
             Content = dto.Content,
             CreatedOn = dto.CreatedOn,
-            StockId = dto.StockId,
+            StockId = stockId
         };
     }
 
@@ -32,6 +32,5 @@ public static class CommentMappers
         comment.Title = dto.Title;
         comment.Content = dto.Content;
         comment.CreatedOn = dto.CreatedOn;
-        comment.StockId = dto.StockId;
     }
 }
