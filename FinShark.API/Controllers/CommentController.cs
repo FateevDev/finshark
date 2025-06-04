@@ -1,4 +1,5 @@
 using FinShark.API.Dtos.Comment;
+using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,16 @@ public class CommentController(ICommentRepository repository) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var comment = await repository.GetByIdAsync(id);
+        try
+        {
+            var comment = await repository.GetByIdAsync(id);
 
-        return Ok(comment.ToCommentDto());
+            return Ok(comment.ToCommentDto());
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]

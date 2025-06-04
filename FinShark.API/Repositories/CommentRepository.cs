@@ -1,5 +1,6 @@
 using FinShark.API.Data;
 using FinShark.API.Dtos.Comment;
+using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
 
         if (comment == null)
         {
-            throw new Exception("Comment not found");
+            throw new EntityNotFoundException(nameof(Comment), id);
         }
 
         return comment;

@@ -1,4 +1,5 @@
 using FinShark.API.Dtos.Stock;
+using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,16 @@ public class StockController(IStockRepository repository) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
-        var stock = await repository.GetByIdAsync(id);
+        try
+        {
+            var stock = await repository.GetByIdAsync(id);
 
-        return Ok(stock.ToStockDto());
+            return Ok(stock.ToStockDto());
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]

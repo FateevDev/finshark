@@ -1,5 +1,6 @@
 using FinShark.API.Data;
 using FinShark.API.Dtos.Stock;
+using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 
         if (stock == null)
         {
-            throw new Exception("Stock not found");
+            throw new EntityNotFoundException(nameof(Stock), id);
         }
 
         return stock;
@@ -38,7 +39,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
         stock.UpdateFromRequest(dto);
 
         await dbContext.SaveChangesAsync();
-        
+
         return stock;
     }
 
