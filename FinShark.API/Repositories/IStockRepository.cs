@@ -1,7 +1,6 @@
-using FinShark.API.Data;
 using FinShark.API.Dtos.Stock;
+using FinShark.API.Exceptions;
 using FinShark.API.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinShark.API.Repositories;
 
@@ -9,6 +8,7 @@ public interface IStockRepository
 {
     Task<List<Stock>> GetAllAsync();
 
+    /// <exception cref="EntityNotFoundException"></exception>
     Task<Stock> GetByIdAsync(int id);
 
     public Task CreateAsync(Stock stock);

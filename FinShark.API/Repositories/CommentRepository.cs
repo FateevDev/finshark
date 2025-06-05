@@ -14,6 +14,7 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
         return await dbContext.Comments.ToListAsync();
     }
 
+    /// <exception cref="EntityNotFoundException"></exception>
     public async Task<Comment> GetByIdAsync(int id)
     {
         var comment = await dbContext.Comments.FindAsync(id);

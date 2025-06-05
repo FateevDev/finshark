@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FinShark.API.Controllers.v1;
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/stocks/{stockId}/comments")]
+[Route("api/v{version:apiVersion}/stocks/{stockId:int}/comments")]
 public class StockCommentController(ICommentRepository repository, IStockRepository stockRepository) : BaseController
 {
     [HttpGet]
@@ -45,7 +45,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
         }
     }
 
-    [HttpPut("{commentId}")]
+    [HttpPut("{commentId:int}")]
     public async Task<IActionResult> Update([FromRoute] int commentId, [FromBody] UpdateCommentRequestDto dto)
     {
         try
@@ -60,7 +60,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
         }
     }
 
-    [HttpDelete("{commentId}")]
+    [HttpDelete("{commentId:int}")]
     public async Task<IActionResult> Delete([FromRoute] int commentId)
     {
         try

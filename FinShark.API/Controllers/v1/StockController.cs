@@ -20,7 +20,7 @@ public class StockController(IStockRepository repository) : BaseController
         return Ok(stockDtos);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById([FromRoute] int id)
     {
         try
@@ -44,7 +44,7 @@ public class StockController(IStockRepository repository) : BaseController
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
     {
         var stock = await repository.UpdateAsync(id, stockDto);
@@ -52,7 +52,7 @@ public class StockController(IStockRepository repository) : BaseController
         return Ok(stock.ToStockDto());
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         await repository.DeleteByIdAsync(id);
