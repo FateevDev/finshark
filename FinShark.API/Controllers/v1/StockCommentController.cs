@@ -46,12 +46,10 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
     }
 
     [HttpPut("{commentId}")]
-    public async Task<IActionResult> Update([FromRoute] int stockId,
-        [FromRoute] int commentId, [FromBody] UpdateCommentRequestDto dto)
+    public async Task<IActionResult> Update([FromRoute] int commentId, [FromBody] UpdateCommentRequestDto dto)
     {
         try
         {
-            await stockRepository.GetByIdAsync(stockId);
             var comment = await repository.UpdateAsync(commentId, dto);
 
             return Ok(comment.ToCommentDto());
@@ -63,11 +61,10 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
     }
 
     [HttpDelete("{commentId}")]
-    public async Task<IActionResult> Delete([FromRoute] int stockId, [FromRoute] int commentId)
+    public async Task<IActionResult> Delete([FromRoute] int commentId)
     {
         try
         {
-            await stockRepository.GetByIdAsync(stockId);
             await repository.DeleteByIdAsync(commentId);
 
             return NoContent();
