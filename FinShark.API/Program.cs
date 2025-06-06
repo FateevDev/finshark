@@ -2,8 +2,11 @@ using Asp.Versioning;
 using FinShark.API.Data;
 using FinShark.API.Repositories;
 using FinShark.API.Swagger;
+using FinShark.API.Validators.Comment;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +47,9 @@ builder.Services
     });
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CommentCreateValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
