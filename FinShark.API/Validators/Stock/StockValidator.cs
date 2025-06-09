@@ -92,3 +92,18 @@ public class StockUpdateValidator : StockBaseValidator<UpdateStockRequestDto>
         SetupMarketCapRules(dto => dto.MarketCap);
     }
 }
+
+public class StockQueryValidator : StockBaseValidator<StockQueryObject>
+{
+    public StockQueryValidator()
+    {
+        When(query => !string.IsNullOrWhiteSpace(query.Symbol), () => SetupSymbolRules(query => query.Symbol!));
+        When(query => !string.IsNullOrWhiteSpace(query.CompanyName),
+            () => SetupSymbolRules(query => query.CompanyName!));
+        When(query => query.MarketCapMax.HasValue && query.MarketCapMin.HasValue, () =>
+            RuleFor(query => query.MarketCapMax)
+                .Must((query, marketCapMax) => marketCapMax >= query.MarketCapMin)
+                .WithMessage("MarketCapMax must be equal or greater MarketCapMin")
+        );
+    }
+}

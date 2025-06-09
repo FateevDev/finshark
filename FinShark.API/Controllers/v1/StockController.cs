@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using FinShark.API.Dtos;
 using FinShark.API.Dtos.Stock;
 using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
@@ -12,9 +13,9 @@ namespace FinShark.API.Controllers.v1;
 public class StockController(IStockRepository repository) : BaseController
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] StockQueryObject query)
     {
-        var stocks = await repository.GetAllAsync();
+        var stocks = await repository.GetAllAsync(query);
         var stockDtos = stocks.Select(stock => stock.ToStockDto());
 
         return Ok(stockDtos);

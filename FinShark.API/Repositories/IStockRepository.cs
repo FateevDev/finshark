@@ -6,7 +6,7 @@ namespace FinShark.API.Repositories;
 
 public interface IStockRepository
 {
-    Task<List<Stock>> GetAllAsync();
+    Task<List<Stock>> GetAllAsync(StockQueryObject query);
 
     /// <exception cref="EntityNotFoundException"></exception>
     Task<Stock> GetByIdAsync(int id);

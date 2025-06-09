@@ -9,9 +9,18 @@ namespace FinShark.API.Repositories;
 
 public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 {
-    public async Task<List<Stock>> GetAllAsync()
+    public async Task<List<Stock>> GetAllAsync(StockQueryObject query)
     {
-        return await dbContext.Stocks.Include(stock => stock.Comments).ToListAsync();
+        return await dbContext.Stocks
+            .Include(stock => stock.Comments)
+            .AsQueryable()
+            .When(!string.IsNullOrWhiteSpace(query.Symbol),
+                q => q.Where(stock => stock.Symbol.Contains(query.Symbol!)))
+            .When(!string.IsNullOrWhiteSpace(query.CompanyName),
+                q => q.Where(stock => stock.CompanyName.Contains(query.CompanyName!)))
+            .When(query.MarketCapMin.HasValue, q=> q.Where(stock => stock.MarketCap >= query.MarketCapMin))
+            .When(query.MarketCapMax.HasValue, q=> q.Where(stock => stock.MarketCap <= query.MarketCapMax))
+            .ToListAsync();
     }
 
     public async Task<Stock> GetByIdAsync(int id)
