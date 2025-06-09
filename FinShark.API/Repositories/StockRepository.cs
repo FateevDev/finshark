@@ -18,8 +18,22 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
                 q => q.Where(stock => stock.Symbol.Contains(query.Symbol!)))
             .When(!string.IsNullOrWhiteSpace(query.CompanyName),
                 q => q.Where(stock => stock.CompanyName.Contains(query.CompanyName!)))
-            .When(query.MarketCapMin.HasValue, q=> q.Where(stock => stock.MarketCap >= query.MarketCapMin))
-            .When(query.MarketCapMax.HasValue, q=> q.Where(stock => stock.MarketCap <= query.MarketCapMax))
+            .When(query.MarketCapMin.HasValue, q => q.Where(stock => stock.MarketCap >= query.MarketCapMin))
+            .When(query.MarketCapMax.HasValue, q => q.Where(stock => stock.MarketCap <= query.MarketCapMax))
+            .When(!string.IsNullOrWhiteSpace(query.Sort), q =>
+            {
+                bool isDescending = query.Sort!.StartsWith("-");
+                string sortField = query.Sort.TrimStart('-');
+
+                if (!string.Equals("symbol", sortField, StringComparison.OrdinalIgnoreCase))
+                {
+                    return q;
+                }
+
+                return isDescending
+                    ? q.OrderByDescending(stock => stock.Symbol)
+                    : q.OrderBy(stock => stock.Symbol);
+            })
             .ToListAsync();
     }
 

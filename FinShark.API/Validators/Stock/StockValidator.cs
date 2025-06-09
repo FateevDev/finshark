@@ -105,5 +105,8 @@ public class StockQueryValidator : StockBaseValidator<StockQueryObject>
                 .Must((query, marketCapMax) => marketCapMax >= query.MarketCapMin)
                 .WithMessage("MarketCapMax must be equal or greater MarketCapMin")
         );
+        When(query => !string.IsNullOrWhiteSpace(query.Sort), () => RuleFor(query => query.Sort)
+            .Matches("^-?[a-zA-Z]+$")
+            .WithMessage("Sort field must start with optional '-' followed by latin letters only"));
     }
 }
