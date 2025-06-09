@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using FinShark.API.Data;
 using FinShark.API.Repositories;
+using FinShark.API.Responses.Factories;
 using FinShark.API.Swagger;
 using FinShark.API.Validators.Comment;
 using FluentValidation;
@@ -49,7 +50,11 @@ builder.Services
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CommentCreateValidator>();
-builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationAutoValidation(configuration =>
+    {
+        configuration.OverrideDefaultResultFactoryWith<UnprocessableResultFactory>();
+    }
+);
 
 var app = builder.Build();
 
