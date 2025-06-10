@@ -45,6 +45,8 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 
                 return isDescending ? q.OrderByDescending(expression) : q.OrderBy(expression);
             })
+            .Skip(query.Offset)
+            .Take(query.Limit)
             .ToListAsync();
     }
 

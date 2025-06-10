@@ -5,5 +5,7 @@ public record StockQueryObject(
     string? CompanyName,
     long? MarketCapMin,
     long? MarketCapMax,
-    string? Sort
+    string? Sort,
+    int Limit = 10,
+    int Offset = 0
 );

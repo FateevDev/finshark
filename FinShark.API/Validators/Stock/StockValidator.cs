@@ -95,6 +95,8 @@ public class StockUpdateValidator : StockBaseValidator<UpdateStockRequestDto>
 
 public class StockQueryValidator : StockBaseValidator<StockQueryObject>
 {
+    private const int PaginationRecordsLimit = 100;
+    
     public StockQueryValidator()
     {
         When(query => !string.IsNullOrWhiteSpace(query.Symbol), () => SetupSymbolRules(query => query.Symbol!));
@@ -108,5 +110,13 @@ public class StockQueryValidator : StockBaseValidator<StockQueryObject>
         When(query => !string.IsNullOrWhiteSpace(query.Sort), () => RuleFor(query => query.Sort)
             .Matches("^-?[a-zA-Z]+$")
             .WithMessage("Sort field must start with optional '-' followed by latin letters only"));
+        RuleFor(query => query.Limit)
+            .GreaterThanOrEqualTo(1)
+            .WithMessage("Limit must be at least 1")
+            .LessThanOrEqualTo(PaginationRecordsLimit)
+            .WithMessage($"Limit must be less than or equal to {PaginationRecordsLimit}");
+        RuleFor(query => query.Offset)
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Offset must be non-negative");
     }
 }
