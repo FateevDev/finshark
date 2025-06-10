@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FinShark.API.Data;
 using FinShark.API.Dtos.Stock;
 using FinShark.API.Exceptions;
@@ -9,6 +10,18 @@ namespace FinShark.API.Repositories;
 
 public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 {
+    private static readonly Dictionary<string, Expression<Func<Stock, object>>> SortExpressions =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "id", stock => stock.Id },
+            { "symbol", stock => stock.Symbol },
+            { "companyName", stock => stock.CompanyName },
+            { "purchase", stock => stock.Purchase },
+            { "lastDiv", stock => stock.LastDiv },
+            { "industry", stock => stock.Industry },
+            { "marketCap", stock => stock.MarketCap }
+        };
+
     public async Task<List<Stock>> GetAllAsync(StockQueryObject query)
     {
         return await dbContext.Stocks
@@ -25,14 +38,14 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
                 bool isDescending = query.Sort!.StartsWith("-");
                 string sortField = query.Sort.TrimStart('-');
 
-                if (!string.Equals("symbol", sortField, StringComparison.OrdinalIgnoreCase))
+                if (!SortExpressions.TryGetValue(sortField, out var expression))
                 {
                     return q;
                 }
 
                 return isDescending
-                    ? q.OrderByDescending(stock => stock.Symbol)
-                    : q.OrderBy(stock => stock.Symbol);
+                    ? q.OrderByDescending(expression)
+                    : q.OrderBy(expression);
             })
             .ToListAsync();
     }
