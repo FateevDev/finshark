@@ -21,8 +21,11 @@ PACKAGE_NAME := $(filter-out package-add,$(MAKECMDGOALS))
 package-add:
 	dotnet add $(PROJECT_FILE) package $(PACKAGE_NAME)
 
+MIGRATION_NAME := $(filter-out migrations-create,$(MAKECMDGOALS))
+%:
+	@:
 migrations-create:
-	dotnet tool run dotnet-ef migrations add Init --project $(PROJECT_FILE)
+	dotnet tool run dotnet-ef migrations add $(MIGRATION_NAME) --project $(PROJECT_FILE)
 migrations-apply:
 	dotnet tool run dotnet-ef database update --project $(PROJECT_FILE)
 migrations-status:
@@ -30,4 +33,3 @@ migrations-status:
 
 secrets-init:
 	dotnet user-secrets init --project $(PROJECT_FILE)
-

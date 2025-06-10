@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>2979e1ca-9c64-4af7-8cfa-ecf6d14b7177</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,12 +13,15 @@
         <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
         <PackageReference Include="FluentValidation" Version="12.0.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.16" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.16">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.5" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
         <PackageReference Include="SharpGrip.FluentValidation.AutoValidation.Mvc" Version="1.5.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
@@ -30,7 +34,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Configuration\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 

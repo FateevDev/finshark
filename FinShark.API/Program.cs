@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using FinShark.API.Configuration;
 using FinShark.API.Data;
 using FinShark.API.Repositories;
 using FinShark.API.Responses.Factories;
@@ -56,6 +57,8 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
     }
 );
 
+builder.UseIdentity();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -67,6 +70,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
