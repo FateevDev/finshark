@@ -56,3 +56,59 @@ public class Solution
         return false;
     }
 }
+
+public static class ListTest
+{
+    public static void ListCrud()
+    {
+        // no types check
+        // ArrayList list1 = new ArrayList();
+
+        //Create
+        List<int> list = [1, 2, 3, 4];
+
+        //Update
+        list.Add(1);
+        list.Insert(0, 55);
+
+        //Delete
+        var newList = list.Where(number => number > 2).ToList();
+        list.RemoveAt(0);
+
+        //Read
+        list.ForEach(number => Console.WriteLine(number));
+        Console.WriteLine("\n");
+        newList.ForEach(number => Console.WriteLine(number));
+    }
+    
+    public static void ArrayCrud()
+    {
+        // Create
+        string[] rats = ["fancy", "brown", "yellow"];
+
+        // Read
+        // foreach (var rat in rats)
+        // {
+        //     Console.WriteLine(rat);
+        // }
+
+        // Update
+        // rats[0] = "bancy";
+
+        // LINQ
+        var enumerable = rats.Where((string rat) => rat.StartsWith("f"));
+
+        enumerable.ToList().ForEach(rat =>
+        {
+            Console.WriteLine(rat);
+            Console.WriteLine(rat + "!");
+        });
+        // Array.ForEach(rats, rat => Console.WriteLine(rat));
+        Array.ForEach(rats, rat => Console.WriteLine(rat));
+
+        foreach (var rat in rats)
+        {
+            Console.WriteLine(rat);
+        }
+    }
+}
