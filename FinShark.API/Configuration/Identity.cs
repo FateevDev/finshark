@@ -25,6 +25,8 @@ public static class Identity
         var jwtSettings = builder.Configuration.GetRequiredSection("JWT").Get<JwtSettings>() ??
                           throw new InvalidOperationException("Invalid JWT configuration");
 
+        builder.Services.AddSingleton(jwtSettings);
+
         builder.Services
             .AddAuthentication(options =>
             {

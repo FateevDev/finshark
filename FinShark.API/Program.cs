@@ -3,6 +3,7 @@ using FinShark.API.Configuration;
 using FinShark.API.Data;
 using FinShark.API.Repositories;
 using FinShark.API.Responses.Factories;
+using FinShark.API.Services;
 using FinShark.API.Swagger;
 using FinShark.API.Validators.Comment;
 using FluentValidation;
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services
     .AddApiVersioning(options =>

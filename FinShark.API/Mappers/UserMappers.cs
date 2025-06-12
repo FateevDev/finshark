@@ -13,4 +13,9 @@ public static class UserMappers
             Email = dto.Email,
         };
     }
+
+    public static UserCreatedDto ToUserCreatedDto(this User user, string token)
+    {
+        return new UserCreatedDto(user.UserName!, user.Email!, token);
+    }
 }
