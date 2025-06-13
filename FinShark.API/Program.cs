@@ -4,13 +4,10 @@ using FinShark.API.Data;
 using FinShark.API.Repositories;
 using FinShark.API.Responses.Factories;
 using FinShark.API.Services;
-using FinShark.API.Swagger;
 using FinShark.API.Validators.Comment;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.AddSwagger();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -49,8 +46,6 @@ builder.Services
         options.GroupNameFormat = "'v'VVV";
         options.SubstituteApiVersionInUrl = true;
     });
-
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CommentCreateValidator>();
 builder.Services.AddFluentValidationAutoValidation(configuration =>
