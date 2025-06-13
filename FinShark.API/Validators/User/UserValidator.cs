@@ -43,3 +43,16 @@ public class UserRegisterValidator : StockBaseValidator<UserRegisterDto>
         SetupPasswordRules(dto => dto.Password);
     }
 }
+
+public class UserLoginValidator : StockBaseValidator<UserLoginDto>
+{
+    public UserLoginValidator()
+    {
+        RuleFor(dto => dto.Username)
+            .NotEmpty()
+            .WithMessage("Username is required.");
+        RuleFor(dto => dto.Password)
+            .NotEmpty()
+            .WithMessage("Password is required.");   
+    }
+}

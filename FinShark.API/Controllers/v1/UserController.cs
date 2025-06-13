@@ -10,12 +10,30 @@ namespace FinShark.API.Controllers.v1;
 
 [ApiVersion("1.0")]
 [ControllerName("user")]
-public class UserController(UserManager<User> userManager, ITokenService tokenService) : BaseController
+public class UserController(
+    UserManager<User> userManager,
+    ITokenService tokenService,
+    SignInManager<User> signInManager) : BaseController
 {
-    // public async Task<IActionResult> GetById([FromRoute] int id)
-    // {
-    //     
-    // }
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
+    {
+        var user = await userManager.FindByNameAsync(dto.Username);
+
+        if (user == null)
+        {
+            return Unauthorized("Invalid username and/or password");
+        }
+
+        var signInResult = await signInManager.CheckPasswordSignInAsync(user, dto.Password, true);
+
+        if (!signInResult.Succeeded)
+        {
+            return Unauthorized("Invalid username and/or password");
+        }
+
+        return Ok(user.ToUserCreatedDto(tokenService.CreateToken(user)));
+    }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterDto dto)
