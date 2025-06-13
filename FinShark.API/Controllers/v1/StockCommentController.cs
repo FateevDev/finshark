@@ -3,12 +3,14 @@ using FinShark.API.Dtos.Comment;
 using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinShark.API.Controllers.v1;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/stocks/{stockId:int}/comments")]
+[Authorize]
 public class StockCommentController(ICommentRepository repository, IStockRepository stockRepository) : BaseController
 {
     [HttpGet]

@@ -3,12 +3,14 @@ using FinShark.API.Dtos.Stock;
 using FinShark.API.Exceptions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinShark.API.Controllers.v1;
 
 [ApiVersion("1.0")]
 [ControllerName("stocks")]
+[Authorize]
 public class StockController(IStockRepository repository) : BaseController
 {
     [HttpGet]
