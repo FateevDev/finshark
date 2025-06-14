@@ -14,14 +14,13 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
         return await dbContext.Comments.ToListAsync();
     }
 
-    /// <exception cref="EntityNotFoundException"></exception>
     public async Task<Comment> GetByIdAsync(int id)
     {
         var comment = await dbContext.Comments.FindAsync(id);
 
         if (comment == null)
         {
-            throw new EntityNotFoundException(nameof(Comment), id);
+            throw new EntityNotFoundException<int>(nameof(Comment), id);
         }
 
         return comment;
@@ -36,11 +35,11 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
     public async Task<Comment> UpdateAsync(int id, UpdateCommentRequestDto dto)
     {
         var comment = await GetByIdAsync(id);
-        
+
         comment.UpdateFromRequest(dto);
-        
+
         await dbContext.SaveChangesAsync();
-        
+
         return comment;
     }
 

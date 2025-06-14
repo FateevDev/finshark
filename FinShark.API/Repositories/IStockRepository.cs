@@ -8,7 +8,6 @@ public interface IStockRepository
 {
     Task<List<Stock>> GetAllAsync(StockQueryObject query);
 
-    /// <exception cref="EntityNotFoundException"></exception>
     Task<Stock> GetByIdAsync(int id);
 
     public Task CreateAsync(Stock stock);

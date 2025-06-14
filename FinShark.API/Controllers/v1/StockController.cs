@@ -31,7 +31,7 @@ public class StockController(IStockRepository repository) : BaseController
 
             return Ok(stock.ToStockDto());
         }
-        catch (EntityNotFoundException)
+        catch (EntityNotFoundException<int>)
         {
             return NotFound();
         }

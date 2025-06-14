@@ -23,7 +23,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
 
             return Ok(commentsDtos);
         }
-        catch (EntityNotFoundException exception)
+        catch (EntityNotFoundException<int> exception)
         {
             return NotFound(exception.Message);
         }
@@ -41,7 +41,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
 
             return CreatedAtAction(nameof(GetByStock), new { stockId }, comment.ToCommentDto());
         }
-        catch (EntityNotFoundException exception)
+        catch (EntityNotFoundException<int> exception)
         {
             return NotFound(exception.Message);
         }
@@ -56,7 +56,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
 
             return Ok(comment.ToCommentDto());
         }
-        catch (EntityNotFoundException exception)
+        catch (EntityNotFoundException<int> exception)
         {
             return NotFound(exception.Message);
         }
@@ -71,7 +71,7 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
 
             return NoContent();
         }
-        catch (EntityNotFoundException exception)
+        catch (EntityNotFoundException<int> exception)
         {
             return NotFound(exception.Message);
         }

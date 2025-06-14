@@ -58,7 +58,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 
         if (stock == null)
         {
-            throw new EntityNotFoundException(nameof(Stock), id);
+            throw new EntityNotFoundException<int>(nameof(Stock), id);
         }
 
         return stock;
