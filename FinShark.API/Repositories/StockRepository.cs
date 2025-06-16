@@ -66,7 +66,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
 
     public async Task<Stock> GetBySymbolAsync(string symbol)
     {
-        var stock = await dbContext.Stocks.Where(stock => stock.Symbol == symbol).FirstOrDefaultAsync();
+        var stock = await dbContext.Stocks.Where(stock => stock.Symbol.ToLower() == symbol.ToLower()).FirstOrDefaultAsync();
 
         if (stock == null)
         {
