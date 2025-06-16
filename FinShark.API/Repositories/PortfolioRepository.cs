@@ -1,4 +1,5 @@
 using FinShark.API.Data;
+using FinShark.API.Exceptions;
 using FinShark.API.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,5 +19,18 @@ public class PortfolioRepository(ApplicationDbContext dbContext) : IPortfolioRep
     {
         await dbContext.Portfolios.AddAsync(portfolio);
         await dbContext.SaveChangesAsync();
+    }
+
+    public Task DeleteByIdAsync(int portfolioId)
+    {
+        var portfolio = dbContext.Portfolios.Find(portfolioId);
+
+        if (portfolio == null)
+        {
+            throw new EntityNotFoundException<int>(nameof(portfolio), portfolioId);
+        }
+
+        dbContext.Portfolios.Remove(portfolio);
+        return dbContext.SaveChangesAsync();
     }
 }

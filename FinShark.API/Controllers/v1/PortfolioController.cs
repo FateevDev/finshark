@@ -48,7 +48,22 @@ public class PortfolioController(
         }
         catch (EntityNotFoundException<string> e)
         {
-            return NotFound(e.Message);;
+            return NotFound(e.Message);
+        }
+    }
+
+    [HttpDelete("{portfolioId:int}")]
+    public async Task<IActionResult> RemoveUserPortfolio([FromRoute] int portfolioId)
+    {
+        try
+        {
+            await portfolioRepository.DeleteByIdAsync(portfolioId);
+
+            return NoContent();
+        }
+        catch (EntityNotFoundException<int> exception)
+        {
+            return NotFound(exception.Message);
         }
     }
 }

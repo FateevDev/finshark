@@ -7,7 +7,13 @@ public static class PortfolioMappers
 {
     public static PortfolioDto ToDto(this Portfolio portfolio)
     {
-        return new(portfolio.Stock!.ToStockDto(), portfolio.Quantity, portfolio.PurchasePrice, portfolio.CreatedOn);
+        return new(
+            portfolio.Id,
+            portfolio.Stock!.ToStockDto(),
+            portfolio.Quantity,
+            portfolio.PurchasePrice,
+            portfolio.CreatedOn
+        );
     }
 
     public static Portfolio ToPortfolio(this CreatePortfolioRequestDto dto, string userId, int stockId)
