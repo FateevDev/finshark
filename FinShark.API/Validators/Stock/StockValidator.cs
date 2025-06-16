@@ -96,7 +96,7 @@ public class StockUpdateValidator : StockBaseValidator<UpdateStockRequestDto>
 public class StockQueryValidator : StockBaseValidator<StockQueryObject>
 {
     private const int PaginationRecordsLimit = 100;
-    
+
     public StockQueryValidator()
     {
         When(query => !string.IsNullOrWhiteSpace(query.Symbol), () => SetupSymbolRules(query => query.Symbol!));

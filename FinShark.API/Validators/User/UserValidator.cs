@@ -53,6 +53,6 @@ public class UserLoginValidator : StockBaseValidator<UserLoginDto>
             .WithMessage("Username is required.");
         RuleFor(dto => dto.Password)
             .NotEmpty()
-            .WithMessage("Password is required.");   
+            .WithMessage("Password is required.");
     }
 }

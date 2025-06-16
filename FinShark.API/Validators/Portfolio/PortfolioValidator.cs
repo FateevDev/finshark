@@ -8,7 +8,7 @@ public class PortfolioAddValidator : AbstractValidator<CreatePortfolioRequestDto
 {
     private const int QuantityMinCount = 1;
     private const int PurchasePriceMinCount = 0;
-    
+
     public PortfolioAddValidator()
     {
         RuleFor(dto => dto.Quantity)

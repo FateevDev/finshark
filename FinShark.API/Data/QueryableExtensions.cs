@@ -7,7 +7,7 @@ public static class QueryableExtensions
     {
         return condition ? action(query) : query;
     }
-    
+
     public static IQueryable<T> When<T>(this IQueryable<T> query, Func<bool> condition,
         Func<IQueryable<T>, IQueryable<T>> action)
     {

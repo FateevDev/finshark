@@ -11,7 +11,7 @@ public class Portfolio
     public int Quantity { get; set; }
     public decimal PurchasePrice { get; set; }
     public DateTime CreatedOn { get; set; } = DateTime.Now;
-    
+
     public User? User { get; set; }
     public Stock? Stock { get; set; }
 }
