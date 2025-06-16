@@ -12,18 +12,20 @@ public static class CommentMappers
             comment.Title,
             comment.Content,
             comment.CreatedOn,
-            comment.StockId
+            comment.StockId,
+            comment.User!.UserName!
         );
     }
 
-    public static Comment ToCommentFromCreateRequest(this CreateCommentRequestDto dto, int stockId)
+    public static Comment ToCommentFromCreateRequest(this CreateCommentRequestDto dto, int stockId, string userId)
     {
         return new Comment
         {
             Title = dto.Title,
             Content = dto.Content,
-            CreatedOn = dto.CreatedOn,
-            StockId = stockId
+            CreatedOn = DateTime.Now,
+            StockId = stockId,
+            UserId = userId
         };
     }
 

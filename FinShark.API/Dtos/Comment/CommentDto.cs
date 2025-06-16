@@ -5,5 +5,6 @@ public record CommentDto(
     string Title,
     string Content,
     DateTime CreatedOn,
-    int? StockId
+    int? StockId,
+    string UserName
 );

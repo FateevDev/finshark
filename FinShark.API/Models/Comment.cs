@@ -13,8 +13,10 @@ public class Comment
     public DateTime CreatedOn { get; set; } = DateTime.Now;
 
     // by convention EntityFrameworkCore(ORM) will use the name of the class as the table name
-    public int? StockId { get; set; }
+    public int StockId { get; set; }
+    public required string UserId { get; set; }
 
     // Navigation property
     public Stock? Stock { get; set; }
+    public User? User { get; set; }
 }

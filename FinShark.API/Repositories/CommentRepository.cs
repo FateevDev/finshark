@@ -11,12 +11,14 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
 {
     public async Task<List<Comment>> GetAllAsync()
     {
-        return await dbContext.Comments.ToListAsync();
+        return await dbContext.Comments.Include(comment => comment.User).ToListAsync();
     }
 
     public async Task<Comment> GetByIdAsync(int id)
     {
-        var comment = await dbContext.Comments.FindAsync(id);
+        var comment = await dbContext.Comments
+            .Include(comment => comment.User)
+            .FirstOrDefaultAsync(comment => comment.Id == id);
 
         if (comment == null)
         {
@@ -32,10 +34,15 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Comment> UpdateAsync(int id, UpdateCommentRequestDto dto)
+    public async Task<Comment> UpdateAsync(int id, UpdateCommentRequestDto dto, string userId)
     {
         var comment = await GetByIdAsync(id);
 
+        if (comment.UserId != userId)
+        {
+            throw UpdateCommentException.CanNotUpdateOtherUserComment();
+        }
+        
         comment.UpdateFromRequest(dto);
 
         await dbContext.SaveChangesAsync();

@@ -26,6 +26,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
     {
         return await dbContext.Stocks
             .Include(stock => stock.Comments)
+            .ThenInclude(comment => comment.User)
             .AsQueryable()
             .When(!string.IsNullOrWhiteSpace(query.Symbol),
                 q => q.Where(stock => stock.Symbol.Contains(query.Symbol!)))
@@ -54,6 +55,7 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
     {
         var stock = await dbContext.Stocks
             .Include(stock => stock.Comments)
+            .ThenInclude(comment => comment.User)
             .FirstOrDefaultAsync(stock => stock.Id == id);
 
         if (stock == null)

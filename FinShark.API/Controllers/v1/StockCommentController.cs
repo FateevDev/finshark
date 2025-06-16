@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using FinShark.API.Dtos.Comment;
 using FinShark.API.Exceptions;
+using FinShark.API.Extensions;
 using FinShark.API.Mappers;
 using FinShark.API.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -35,8 +36,9 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
     {
         try
         {
+            var userId = User.GetUserId();
             await stockRepository.GetByIdAsync(stockId);
-            var comment = dto.ToCommentFromCreateRequest(stockId);
+            var comment = dto.ToCommentFromCreateRequest(stockId, userId);
             await repository.CreateAsync(comment);
 
             return CreatedAtAction(nameof(GetByStock), new { stockId }, comment.ToCommentDto());
@@ -52,13 +54,18 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
     {
         try
         {
-            var comment = await repository.UpdateAsync(commentId, dto);
+            var userId = User.GetUserId();
+            var comment = await repository.UpdateAsync(commentId, dto, userId);
 
             return Ok(comment.ToCommentDto());
         }
         catch (EntityNotFoundException<int> exception)
         {
             return NotFound(exception.Message);
+        }
+        catch (UpdateCommentException exception)
+        {
+            return BadRequest(exception.Message);
         }
     }
 

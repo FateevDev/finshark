@@ -16,12 +16,20 @@ public class ApplicationDbContext(DbContextOptions dbContextOptions) : IdentityD
         base.OnModelCreating(builder);
 
         ConfigurePortfolioEntity(builder);
+        ConfigureCommentEntity(builder);
         SeedIdentityRoles(builder);
+    }
+
+    private void ConfigureCommentEntity(ModelBuilder builder)
+    {
+        builder.Entity<Comment>()
+            .HasOne(comment => comment.User)
+            .WithMany(user => user.Comments)
+            .HasForeignKey(comment => comment.UserId);
     }
 
     private static void ConfigurePortfolioEntity(ModelBuilder builder)
     {
-        // builder.Entity<Portfolio>(entityTypeBuilder => entityTypeBuilder.HasKey(p => new { p.UserId, p.StockId }));
         builder.Entity<Portfolio>()
             .HasOne(portfolio => portfolio.User)
             .WithMany(user => user.Portfolios)
