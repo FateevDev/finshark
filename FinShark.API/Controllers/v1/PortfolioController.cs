@@ -57,7 +57,9 @@ public class PortfolioController(
     {
         try
         {
-            await portfolioRepository.DeleteByIdAsync(portfolioId);
+            var userId = User.GetUserId();
+
+            await portfolioRepository.DeleteByIdAsync(portfolioId, userId);
 
             return NoContent();
         }

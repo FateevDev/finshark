@@ -21,9 +21,9 @@ public class PortfolioRepository(ApplicationDbContext dbContext) : IPortfolioRep
         await dbContext.SaveChangesAsync();
     }
 
-    public Task DeleteByIdAsync(int portfolioId)
+    public Task DeleteByIdAsync(int portfolioId, string userId)
     {
-        var portfolio = dbContext.Portfolios.Find(portfolioId);
+        var portfolio = dbContext.Portfolios.FirstOrDefault(p => p.UserId == userId && p.Id == portfolioId);
 
         if (portfolio == null)
         {

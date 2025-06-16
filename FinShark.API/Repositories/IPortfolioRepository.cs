@@ -6,5 +6,5 @@ public interface IPortfolioRepository
 {
     Task<List<Portfolio>> GetByUserIdAsync(string userId);
     Task CreateAsync(Portfolio portfolio);
-    Task DeleteByIdAsync(int portfolioId);
+    Task DeleteByIdAsync(int portfolioId, string userId);
 }

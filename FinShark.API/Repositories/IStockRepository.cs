@@ -1,5 +1,4 @@
 using FinShark.API.Dtos.Stock;
-using FinShark.API.Exceptions;
 using FinShark.API.Models;
 
 namespace FinShark.API.Repositories;
