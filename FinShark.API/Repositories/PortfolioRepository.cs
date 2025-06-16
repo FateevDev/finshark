@@ -13,4 +13,10 @@ public class PortfolioRepository(ApplicationDbContext dbContext) : IPortfolioRep
             .Where(p => p.UserId == userId)
             .ToListAsync();
     }
+
+    public async Task CreateAsync(Portfolio portfolio)
+    {
+        await dbContext.Portfolios.AddAsync(portfolio);
+        await dbContext.SaveChangesAsync();
+    }
 }

@@ -64,6 +64,18 @@ public class StockRepository(ApplicationDbContext dbContext) : IStockRepository
         return stock;
     }
 
+    public async Task<Stock> GetBySymbolAsync(string symbol)
+    {
+        var stock = await dbContext.Stocks.Where(stock => stock.Symbol == symbol).FirstOrDefaultAsync();
+
+        if (stock == null)
+        {
+            throw new EntityNotFoundException<string>(nameof(Stock), symbol, nameof(symbol));
+        }
+
+        return stock;
+    }
+
     public async Task CreateAsync(Stock stock)
     {
         await dbContext.Stocks.AddAsync(stock);
