@@ -248,6 +248,8 @@ namespace FinShark.API.Migrations
                 name: "Portfolios",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     StockId = table.Column<int>(type: "int", nullable: false),
@@ -257,7 +259,7 @@ namespace FinShark.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Portfolios", x => new { x.UserId, x.StockId });
+                    table.PrimaryKey("PK_Portfolios", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Portfolios_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -278,8 +280,8 @@ namespace FinShark.API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "2c8550fa-0128-4864-86c0-3b0c62ac9c94", null, "Admin", "ADMIN" },
-                    { "b69c41a8-616e-402f-9c6d-485405a978ad", null, "User", "USER" }
+                    { "261b17e9-a864-4382-9430-8d5ed03f6d63", null, "User", "USER" },
+                    { "dd7598f9-61cb-4aef-b20a-09cea72359bf", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -328,6 +330,11 @@ namespace FinShark.API.Migrations
                 name: "IX_Portfolios_StockId",
                 table: "Portfolios",
                 column: "StockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Portfolios_UserId",
+                table: "Portfolios",
+                column: "UserId");
         }
 
         /// <inheritdoc />

@@ -5,6 +5,7 @@ namespace FinShark.API.Models;
 [Table("Portfolios")]
 public class Portfolio
 {
+    public int Id { get; set; }
     public required string UserId { get; set; }
     public int StockId { get; set; }
     public int Quantity { get; set; }

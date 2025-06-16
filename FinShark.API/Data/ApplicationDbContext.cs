@@ -21,7 +21,7 @@ public class ApplicationDbContext(DbContextOptions dbContextOptions) : IdentityD
 
     private static void ConfigurePortfolioEntity(ModelBuilder builder)
     {
-        builder.Entity<Portfolio>(entityTypeBuilder => entityTypeBuilder.HasKey(p => new { p.UserId, p.StockId }));
+        // builder.Entity<Portfolio>(entityTypeBuilder => entityTypeBuilder.HasKey(p => new { p.UserId, p.StockId }));
         builder.Entity<Portfolio>()
             .HasOne(portfolio => portfolio.User)
             .WithMany(user => user.Portfolios)

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinShark.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250614184600_Init")]
+    [Migration("20250616165121_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -58,11 +58,11 @@ namespace FinShark.API.Migrations
 
             modelBuilder.Entity("FinShark.API.Models.Portfolio", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("StockId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime(6)");
@@ -73,9 +73,18 @@ namespace FinShark.API.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("UserId", "StockId");
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("StockId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Portfolios");
                 });
@@ -209,13 +218,13 @@ namespace FinShark.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2c8550fa-0128-4864-86c0-3b0c62ac9c94",
+                            Id = "dd7598f9-61cb-4aef-b20a-09cea72359bf",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b69c41a8-616e-402f-9c6d-485405a978ad",
+                            Id = "261b17e9-a864-4382-9430-8d5ed03f6d63",
                             Name = "User",
                             NormalizedName = "USER"
                         });
