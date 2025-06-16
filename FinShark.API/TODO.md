@@ -14,7 +14,7 @@
     return ValidationProblem(ModelState);
 ```
 4. Сделать актуальное ридми со всеми особенностями проекта
-5. Добавить правило, что email пользователя должен быть уникальным
+~~5. Добавить правило, что email пользователя должен быть уникальным~~
 6. Добавить стат анализаторы
    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0" />

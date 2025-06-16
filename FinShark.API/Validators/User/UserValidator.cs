@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using FinShark.API.Dtos.User;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace FinShark.API.Validators.User;
 
@@ -36,11 +37,15 @@ public abstract class StockBaseValidator<T> : AbstractValidator<T>
 
 public class UserRegisterValidator : StockBaseValidator<UserRegisterDto>
 {
-    public UserRegisterValidator()
+    public UserRegisterValidator(UserManager<Models.User> userManager)
     {
         SetupUsernameRules(dto => dto.Username);
         SetupEmailRules(dto => dto.Email);
         SetupPasswordRules(dto => dto.Password);
+
+        RuleFor(dto => dto.Email)
+            .MustAsync(async (email, cancellationToken) => await userManager.FindByEmailAsync(email) == null)
+            .WithMessage("Email already exists.");
     }
 }
 
