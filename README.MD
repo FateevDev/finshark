@@ -135,11 +135,10 @@ FinShark.API/
 
 ```bash
 # Клонирование репозитория
-git clone <repository-url>
+git clone https://github.com/FateevDev/finshark.git
 
 # Запуск через Docker
-make up
-make migrations-apply
+make install
 ```
 
 API будет доступно по адресу: `http://localhost:5064/swagger`

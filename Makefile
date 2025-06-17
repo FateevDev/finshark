@@ -1,5 +1,13 @@
 PROJECT_FILE = ./FinShark.API/FinShark.API.csproj
 
+install:
+	make env
+	make restore
+	make up
+	make migrations-apply
+
+env:
+	test -f .env || cp .env.example .env
 up:
 	docker compose up -d
 down:
@@ -14,6 +22,8 @@ packages-list-outdated:
 	dotnet list $(PROJECT_FILE) package --outdated
 packages-update:
 	dotnet add $(PROJECT_FILE) package PackageName --version latest
+restore:
+	dotnet restore $(PROJECT_FILE)
 
 PACKAGE_NAME := $(filter-out package-add,$(MAKECMDGOALS))
 %:
