@@ -4,3 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .env
+
+# JetBrains user-specific settings
+*.DotSettings.user
