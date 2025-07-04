@@ -16,6 +16,18 @@ public static class CommentMappers
             comment.User!.UserName!
         );
     }
+    
+    public static CommentDto ToCommentDto(this Comment comment, string userName)
+    {
+        return new CommentDto(
+            comment.Id,
+            comment.Title,
+            comment.Content,
+            comment.CreatedOn,
+            comment.StockId,
+            userName
+        );
+    }
 
     public static Comment ToCommentFromCreateRequest(this CreateCommentRequestDto dto, int stockId, string userId)
     {

@@ -18,4 +18,17 @@ public static class ClaimsExtensions
 
         return userId;
     }
+    
+    public static string GetUserName(this ClaimsPrincipal user)
+    {
+        var givenName = ClaimTypes.GivenName;
+        var userName = user.FindFirst(givenName)?.Value;
+
+        if (userName == null)
+        {
+            throw new EntityNotFoundException<string>(nameof(User), givenName);
+        }
+
+        return userName;
+    }
 }

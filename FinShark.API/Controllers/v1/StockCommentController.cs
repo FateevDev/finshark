@@ -37,11 +37,12 @@ public class StockCommentController(ICommentRepository repository, IStockReposit
         try
         {
             var userId = User.GetUserId();
+            var userName = User.GetUserName();
             await stockRepository.GetByIdAsync(stockId);
             var comment = dto.ToCommentFromCreateRequest(stockId, userId);
             await repository.CreateAsync(comment);
 
-            return CreatedAtAction(nameof(GetByStock), new { stockId }, comment.ToCommentDto());
+            return CreatedAtAction(nameof(GetByStock), new { stockId }, comment.ToCommentDto(userName));
         }
         catch (EntityNotFoundException<int> exception)
         {
