@@ -1,3 +1,4 @@
+using System.Net.NetworkInformation;
 using JetBrains.Annotations;
 using NetworkUtility.Ping;
 
@@ -40,5 +41,30 @@ public class NetworkServiceTest
         yield return [1, 2, 3, 6];
         yield return [2, 2, 3, 7];
         yield return [3, 2, 3, 8];
+    }
+
+    [Fact]
+    public void GetPingDateTime_WhenCalled_ReturnsCurrentDateTime()
+    {
+        var dateTime = _sut.GetPingDateTime();
+
+        Assert.InRange(dateTime, DateTime.Now.AddSeconds(-1), DateTime.Now.AddSeconds(1));
+    }
+    
+    [Fact]
+    public void GetPingOptions_WhenCalled_ReturnsPingOptions()
+    {
+        var expected = new PingOptions(100, true);
+        
+        var pingOptions = _sut.GetPingOptions();
+
+        Assert.IsType<PingOptions>(pingOptions);
+        Assert.Equivalent(expected, pingOptions);
+    }
+
+    [Fact]
+    public void MostRecentPings_WhenCalled_ReturnsListOfPingOptions()
+    {
+        var recentPings = _sut.MostRecentPings();
     }
 }
