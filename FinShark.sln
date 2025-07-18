@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkUtility", "NetworkUt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkUtility.Tests", "NetworkUtility.Tests\NetworkUtility.Tests.csproj", "{278B0A0F-8563-41E4-AF0F-E70B786A1F53}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinShark.API.Tests", "FinShark.API.Tests\FinShark.API.Tests.csproj", "{4EA73F9C-2D8D-4450-A59C-67C9494551BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{278B0A0F-8563-41E4-AF0F-E70B786A1F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{278B0A0F-8563-41E4-AF0F-E70B786A1F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278B0A0F-8563-41E4-AF0F-E70B786A1F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EA73F9C-2D8D-4450-A59C-67C9494551BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA73F9C-2D8D-4450-A59C-67C9494551BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA73F9C-2D8D-4450-A59C-67C9494551BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA73F9C-2D8D-4450-A59C-67C9494551BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
