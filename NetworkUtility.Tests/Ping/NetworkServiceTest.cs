@@ -1,5 +1,7 @@
 using System.Net.NetworkInformation;
+using FakeItEasy;
 using JetBrains.Annotations;
+using NetworkUtility.DNS;
 using NetworkUtility.Ping;
 
 namespace NetworkUtility.Tests.Ping;
@@ -7,11 +9,21 @@ namespace NetworkUtility.Tests.Ping;
 [TestSubject(typeof(NetworkService))]
 public class NetworkServiceTest
 {
-    private readonly NetworkService _sut = new();
+    private readonly NetworkService _sut;
+    private readonly IDNS _dns;
+
+    public NetworkServiceTest()
+    {
+        _dns = A.Fake<IDNS>();
+
+        _sut = new NetworkService(_dns);
+    }
 
     [Fact]
     public void Ping_WhenCalled_ReturnsPong()
     {
+        A.CallTo(() => _dns.SendDNS()).Returns(true);
+
         var ping = _sut.Ping();
 
         Assert.Same("pong", ping);
@@ -50,12 +62,12 @@ public class NetworkServiceTest
 
         Assert.InRange(dateTime, DateTime.Now.AddSeconds(-1), DateTime.Now.AddSeconds(1));
     }
-    
+
     [Fact]
     public void GetPingOptions_WhenCalled_ReturnsPingOptions()
     {
         var expected = new PingOptions(100, true);
-        
+
         var pingOptions = _sut.GetPingOptions();
 
         Assert.IsType<PingOptions>(pingOptions);

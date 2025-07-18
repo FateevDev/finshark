@@ -1,11 +1,19 @@
 using System.Net.NetworkInformation;
+using NetworkUtility.DNS;
 
 namespace NetworkUtility.Ping;
 
-public class NetworkService
+public class NetworkService(IDNS dns)
 {
     public string Ping()
     {
+        var isSuccess = dns.SendDNS();
+
+        if (isSuccess == false)
+        {
+            return "dns error";
+        }
+
         return "pong";
     }
 
