@@ -57,7 +57,7 @@ public class UserController(
 
             if (!roleResult.Succeeded)
             {
-                foreach (var error in createdUser.Errors)
+                foreach (var error in roleResult.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
                 }
