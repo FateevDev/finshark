@@ -32,12 +32,12 @@ public class MergeSortedArrays
                 if (nums1[pointer1] <= nums2[pointer2])
                 {
                     nums1[pointer3] = nums2[pointer2];
-                }
 
-                if (nums1[pointer1] > nums2[pointer2])
+                    pointer2--;
+                }
+                else
                 {
                     nums1[pointer3] = nums1[pointer1];
-                    nums1[pointer1] = nums2[pointer2];
 
                     if (pointer1 > 0)
                     {
@@ -45,12 +45,12 @@ public class MergeSortedArrays
                     }
                 }
 
-                pointer2--;
                 pointer3--;
             }
             else
             {
                 var digit = nums1[pointer3];
+
                 if (nums1[pointer1] > nums1[pointer3])
                 {
                     nums1[pointer3] = nums1[pointer1];
