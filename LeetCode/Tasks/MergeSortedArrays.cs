@@ -19,5 +19,47 @@ namespace LeetCode.Tasks;
 // а последние n элементов равны 0 и должны быть проигнорированы. nums2 имеет длину n.
 public class MergeSortedArrays
 {
+    public int[] Merge(int[] nums1, int m, int[] nums2, int n)
+    {
+        var pointer1 = m - 1;
+        var pointer2 = n - 1;
+        var pointer3 = m + n - 1;
 
+        for (var i = 0; i <= nums1.Length; i++)
+        {
+            if (pointer2 >= 0)
+            {
+                if (nums1[pointer1] <= nums2[pointer2])
+                {
+                    nums1[pointer3] = nums2[pointer2];
+                }
+
+                if (nums1[pointer1] > nums2[pointer2])
+                {
+                    nums1[pointer3] = nums1[pointer1];
+                    nums1[pointer1] = nums2[pointer2];
+
+                    if (pointer1 > 0)
+                    {
+                        pointer1--;
+                    }
+                }
+
+                pointer2--;
+                pointer3--;
+            }
+            else
+            {
+                var digit = nums1[pointer3];
+                if (nums1[pointer1] > nums1[pointer3])
+                {
+                    nums1[pointer3] = nums1[pointer1];
+                    nums1[pointer1] = digit;
+                    pointer3--;
+                }
+            }
+        }
+
+        return nums1;
+    }
 }

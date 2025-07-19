@@ -6,10 +6,16 @@ namespace LeetCode.Tests.Tasks;
 [TestSubject(typeof(MergeSortedArrays))]
 public class MergeSortedArraysTest
 {
+    private readonly MergeSortedArrays _sut = new();
 
-    [Xunit.Fact]
-    public void METHOD()
+    [Theory]
+    [InlineData(new[] { 1, 2, 3, 0, 0, 0 }, 3, new[] { 2, 5, 6 }, 3, new[] { 1, 2, 2, 3, 5, 6 })]
+    [InlineData(new[] { 3, 7, 8, 0, 0, 0 }, 3, new[] { 1, 2, 3 }, 3, new[] { 1, 2, 3, 3, 7, 8 })]
+    [InlineData(new[] { 3, 7, 8, 0, 0, 0 }, 3, new[] { 1, 2, 8 }, 3, new[] { 1, 2, 3, 7, 8, 8 })]
+    public void Merge_WhenCalled_Returns_MergedArray(int[] nums1, int m, int[] nums2, int n, int[] expected)
     {
-        
+        var merge = _sut.Merge(nums1, m, nums2, n);
+
+        Assert.Equal(expected, merge);
     }
 }
