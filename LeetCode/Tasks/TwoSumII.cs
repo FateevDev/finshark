@@ -34,10 +34,7 @@ public class TwoSumII
                 return new[] { dict[expectedNumber] + 1, pointer + 1, };
             }
 
-            if (!dict.ContainsKey(num))
-            {
-                dict.Add(num, pointer);
-            }
+            dict.TryAdd(num, pointer);
         }
 
         throw new Exception("numbers not found");
