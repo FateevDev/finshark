@@ -22,25 +22,43 @@ public class TwoSumII
 {
     public int[] TwoSum(int[] nums, int target)
     {
-        for (int pointer1 = 0; pointer1 < nums.Length; pointer1++)
+        Dictionary<int, int> dict = new();
+
+        for (int pointer = 0; pointer < nums.Length; pointer++)
         {
-            var firstNumber = nums[pointer1];
-            var expectedNumber = target - firstNumber;
+            var num = nums[pointer];
+            var expectedNumber = target - num;
 
-            for (int pointer2 = pointer1 + 1; pointer2 < nums.Length; pointer2++)
+            if (dict.ContainsKey(expectedNumber))
             {
-                var secondNumber = nums[pointer2];
+                return new[] { dict[expectedNumber] + 1, pointer + 1, };
+            }
 
-                if (secondNumber == expectedNumber)
-                {
-                    return new[] { pointer1 + 1, pointer2 + 1 };
-                }
+            if (!dict.ContainsKey(num))
+            {
+                dict.Add(num, pointer);
             }
         }
 
         throw new Exception("numbers not found");
     }
-    
+
+    // public int[] TwoSum(int[] nums, int target)
+    // {
+    //     for (int pointer1 = 0; pointer1 < nums.Length; pointer1++)
+    //     {
+    //         for (int pointer2 = pointer1 + 1; pointer2 < nums.Length; pointer2++)
+    //         {
+    //             if (nums[pointer1] + nums[pointer2] == target)
+    //             {
+    //                 return new[] { pointer1 + 1, pointer2 + 1 };
+    //             }
+    //         }
+    //     }
+    //
+    //     throw new Exception("numbers not found");
+    // }
+
     // public int[] TwoSum(int[] nums, int target)
     // {
     //     var pointer1 = 0;
