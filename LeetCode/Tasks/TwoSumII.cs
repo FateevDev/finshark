@@ -18,27 +18,61 @@ namespace LeetCode.Tasks;
 // Тесты гарантируют, что существует ровно одно решение. (не бывает, что решения нет или их несколько)  
 // Нельзя использовать один и тот же элемент дважды.
 // Ваше решение должно использовать только константную дополнительную память.
+
+// Краткое обьяснение решения
+// подход со словарем нужно использовать, когда массив несортирован - 
+// т.е. нам нужно обойти его весь
+// Раз массив сортирован, нужно поставить указатели слева и справа и постепенно сдвигать их
+// - если число больше требуемого, сдвигаем правый (т.е. уменьшаем сумму)
+// - если число меньше - сдвигаем левый, т.е. увеличиваем
 public class TwoSumII
 {
     public int[] TwoSum(int[] nums, int target)
     {
-        Dictionary<int, int> dict = new();
+        var left = 0;
+        var right = nums.Length - 1;
 
-        for (int pointer = 0; pointer < nums.Length; pointer++)
+        while (right > left)
         {
-            var num = nums[pointer];
-            var expectedNumber = target - num;
+            var sum = nums[left] + nums[right];
 
-            if (dict.ContainsKey(expectedNumber))
+            if (sum == target)
             {
-                return new[] { dict[expectedNumber] + 1, pointer + 1, };
+                return new[] { left + 1, right + 1 };
             }
 
-            dict.TryAdd(num, pointer);
+            if (sum > target)
+            {
+                right--;
+            }
+            else
+            {
+                left++;
+            }
         }
 
         throw new Exception("numbers not found");
     }
+
+    // public int[] TwoSum(int[] nums, int target)
+    // {
+    //     Dictionary<int, int> dict = new();
+    //
+    //     for (int pointer = 0; pointer < nums.Length; pointer++)
+    //     {
+    //         var num = nums[pointer];
+    //         var expectedNumber = target - num;
+    //
+    //         if (dict.ContainsKey(expectedNumber))
+    //         {
+    //             return new[] { dict[expectedNumber] + 1, pointer + 1, };
+    //         }
+    //
+    //         dict.TryAdd(num, pointer);
+    //     }
+    //
+    //     throw new Exception("numbers not found");
+    // }
 
     // public int[] TwoSum(int[] nums, int target)
     // {
