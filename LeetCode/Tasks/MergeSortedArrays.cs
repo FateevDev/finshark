@@ -30,7 +30,6 @@ public class MergeSortedArrays
             if (pointer1 >= 0 && nums1[pointer1] > nums2[pointer2])
             {
                 nums1[pointer3] = nums1[pointer1];
-
                 pointer1--;
             }
             else
