@@ -15,13 +15,36 @@ namespace LeetCode.Tasks;
 // Эти числа должны быть указаны как numbers[index1] и numbers[index2]
 // При этом 1 <= index1 < index2 < numbers.length
 // Вернуть индексы 2х чисел, как массив [index1, index2]
-// Тесты гарантируют, что существует ровно одно решение.  
-// Нельзя использовать один и тот же элемент дважды.  
+// Тесты гарантируют, что существует ровно одно решение. (не бывает, что решения нет или их несколько)  
+// Нельзя использовать один и тот же элемент дважды.
 // Ваше решение должно использовать только константную дополнительную память.
 public class TwoSumII
 {
     public int[] TwoSum(int[] nums, int target)
     {
-        
+        var pointer1 = 0;
+        var pointer2 = 1;
+
+        while (pointer1 < nums.Length - 1)
+        {
+            if (pointer2 > nums.Length - 1)
+            {
+                pointer1++;
+                pointer2 = pointer1 + 1;
+            }
+
+            var firstNumber = nums[pointer1];
+            var expectedNumber = target - firstNumber;
+            var secondNumber = nums[pointer2];
+
+            if (secondNumber == expectedNumber)
+            {
+                return new[] { pointer1 + 1, pointer2 + 1 };
+            }
+
+            pointer2++;
+        }
+
+        throw new Exception("numbers not found");
     }
 }
