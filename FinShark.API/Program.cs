@@ -74,3 +74,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+namespace FinShark.API
+{
+    public class FinSharkApiServiceProgram;
+}
