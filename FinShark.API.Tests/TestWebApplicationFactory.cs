@@ -1,5 +1,6 @@
 using FinShark.API.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,8 @@ namespace FinShark.API.Tests;
 
 public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServiceProgram>
 {
+    private bool _initialized;
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Testing");
@@ -31,4 +34,30 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
             services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Warning));
         });
     }
+    
+    public async Task InitializeDatabaseAsync()
+    {
+        if (_initialized) return;
+
+        using var scope = Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        // Обеспечиваем создание БД
+        await context.Database.EnsureCreatedAsync();
+
+        // Создаем роли
+        if (!await roleManager.RoleExistsAsync("Admin"))
+        {
+            await roleManager.CreateAsync(new IdentityRole("Admin"));
+        }
+
+        if (!await roleManager.RoleExistsAsync("User"))
+        {
+            await roleManager.CreateAsync(new IdentityRole("User"));
+        }
+
+        _initialized = true;
+    }
+
 }

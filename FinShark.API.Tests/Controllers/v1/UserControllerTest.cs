@@ -1,6 +1,5 @@
 using System.Net;
 using System.Net.Http.Json;
-using System.Security.Claims;
 using System.Text.Json;
 using FinShark.API.Controllers.v1;
 using JetBrains.Annotations;
@@ -18,16 +17,20 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
     {
         _factory = factory;
         _client = _factory.CreateClient();
+
+        _factory.InitializeDatabaseAsync().GetAwaiter().GetResult();
     }
 
     [Fact]
     public async Task Register_ValidUser_ReturnsSuccess()
     {
         // Arrange
+        var Username = "testuser";
+        var Email = $"test_{Guid.NewGuid():N}@example.com";
         var registerDto = new
         {
-            Username = $"testuser",
-            Email = $"test_{Guid.NewGuid():N}@example.com",
+            Username = Username,
+            Email = Email,
             Password = "TestPassword123!"
         };
 
@@ -46,7 +49,7 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
         var jsonDocument = JsonDocument.Parse(jsonContent);
 
         Assert.True(jsonDocument.RootElement.TryGetProperty("token", out var tokenProperty));
-        Assert.True(jsonDocument.RootElement.TryGetProperty("username", out var usernameProperty));
+        Assert.True(jsonDocument.RootElement.TryGetProperty("userName", out var usernameProperty));
         Assert.True(jsonDocument.RootElement.TryGetProperty("email", out var emailProperty));
 
         // Проверяем значения
@@ -58,16 +61,16 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
         var decodedToken = JwtTestHelper.DecodeToken(tokenProperty.ToString());
 
         // Проверяем claims
-        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.Name);
-        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.Email);
-        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.NameIdentifier);
+        Assert.Contains(decodedToken.Claims, c => c.Type == "given_name");
+        Assert.Contains(decodedToken.Claims, c => c.Type == "email");
+        Assert.Contains(decodedToken.Claims, c => c.Type == "nameid");
 
         // Проверяем значения claims
-        var usernameClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
-        var emailClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+        var usernameClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == "given_name");
+        var emailClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == "email");
 
-        Assert.Equal(registerDto.Username, usernameClaim?.Value);
-        Assert.Equal(registerDto.Email, emailClaim?.Value);
+        Assert.Equal(Username, usernameClaim?.Value);
+        Assert.Equal(Email, emailClaim?.Value);
 
         // Проверяем срок действия
         Assert.True(decodedToken.ValidTo > DateTime.UtcNow);
