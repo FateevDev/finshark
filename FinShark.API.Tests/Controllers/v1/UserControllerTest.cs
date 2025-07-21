@@ -1,12 +1,9 @@
+using System.Net;
+using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text.Json;
 using FinShark.API.Controllers.v1;
-using FinShark.API.Data;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
 namespace FinShark.API.Tests.Controllers.v1;
@@ -24,7 +21,55 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
     }
 
     [Fact]
-    public void Method()
+    public async Task Register_ValidUser_ReturnsSuccess()
     {
+        // Arrange
+        var registerDto = new
+        {
+            Username = $"testuser",
+            Email = $"test_{Guid.NewGuid():N}@example.com",
+            Password = "TestPassword123!"
+        };
+
+        // Act
+        var response = await _client.PostAsJsonAsync(
+            "/api/v1/user/register",
+            registerDto,
+            cancellationToken: TestContext.Current.CancellationToken
+        );
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        var jsonContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken
+        );
+        var jsonDocument = JsonDocument.Parse(jsonContent);
+
+        Assert.True(jsonDocument.RootElement.TryGetProperty("token", out var tokenProperty));
+        Assert.True(jsonDocument.RootElement.TryGetProperty("username", out var usernameProperty));
+        Assert.True(jsonDocument.RootElement.TryGetProperty("email", out var emailProperty));
+
+        // Проверяем значения
+        Assert.Equal(registerDto.Username, usernameProperty.GetString());
+        Assert.Equal(registerDto.Email, emailProperty.GetString());
+        Assert.False(string.IsNullOrEmpty(tokenProperty.GetString()));
+
+        // Декодируем токен без валидации подписи (для проверки структуры)
+        var decodedToken = JwtTestHelper.DecodeToken(tokenProperty.ToString());
+
+        // Проверяем claims
+        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.Name);
+        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.Email);
+        Assert.Contains(decodedToken.Claims, c => c.Type == ClaimTypes.NameIdentifier);
+
+        // Проверяем значения claims
+        var usernameClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+        var emailClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+
+        Assert.Equal(registerDto.Username, usernameClaim?.Value);
+        Assert.Equal(registerDto.Email, emailClaim?.Value);
+
+        // Проверяем срок действия
+        Assert.True(decodedToken.ValidTo > DateTime.UtcNow);
     }
 }

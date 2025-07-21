@@ -14,6 +14,11 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
     {
         builder.UseEnvironment("Testing");
 
+        builder.UseSetting("JWT:SigningKey", "test-signing-key-that-is-long-enough-for-hmac-sha256-algorithm");
+        builder.UseSetting("JWT:Issuer", "test-issuer");
+        builder.UseSetting("JWT:Audience", "test-audience");
+        builder.UseSetting("JWT:ExpireDays", "1");
+
         builder.ConfigureServices(services =>
         {
             // Удаляем реальную БД
