@@ -16,6 +16,8 @@ check:
 	dotnet format --verify-no-changes
 check-fix:
 	dotnet format
+test:
+	dotnet test
 packages-list:
 	dotnet list $(PROJECT_FILE) package
 packages-list-outdated:
