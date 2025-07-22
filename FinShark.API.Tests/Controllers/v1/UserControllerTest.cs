@@ -118,12 +118,12 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
     public async Task Register_ValidUser_ReturnsSuccess()
     {
         // Arrange
-        var Username = "testuser";
-        var Email = $"test_{Guid.NewGuid():N}@example.com";
+        var username = "testuser";
+        var email = $"test_{Guid.NewGuid():N}@example.com";
         var registerDto = new
         {
-            Username = Username,
-            Email = Email,
+            Username = username,
+            Email = email,
             Password = "TestPassword123!"
         };
 
@@ -162,8 +162,8 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
         var usernameClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == "given_name");
         var emailClaim = decodedToken.Claims.FirstOrDefault(c => c.Type == "email");
 
-        Assert.Equal(Username, usernameClaim?.Value);
-        Assert.Equal(Email, emailClaim?.Value);
+        Assert.Equal(username, usernameClaim?.Value);
+        Assert.Equal(email, emailClaim?.Value);
 
         // Проверяем срок действия
         Assert.True(decodedToken.ValidTo > DateTime.UtcNow);
