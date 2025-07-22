@@ -80,7 +80,7 @@ public static class ListTest
         Console.WriteLine("\n");
         newList.ForEach(number => Console.WriteLine(number));
     }
-    
+
     public static void ArrayCrud()
     {
         // Create

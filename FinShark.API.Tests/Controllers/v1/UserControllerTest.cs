@@ -63,7 +63,7 @@ public class UserControllerTest : IClassFixture<TestWebApplicationFactory>
         Assert.Equal(email, emailProperty.GetString());
         Assert.False(string.IsNullOrEmpty(tokenProperty.GetString()));
     }
-    
+
     [Fact]
     public async Task Login_InvalidUsername_ReturnsUnauthorized()
     {

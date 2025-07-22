@@ -16,7 +16,7 @@ public static class CommentMappers
             comment.User!.UserName!
         );
     }
-    
+
     public static CommentDto ToCommentDto(this Comment comment, string userName)
     {
         return new CommentDto(

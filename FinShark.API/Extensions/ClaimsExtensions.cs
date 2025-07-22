@@ -18,7 +18,7 @@ public static class ClaimsExtensions
 
         return userId;
     }
-    
+
     public static string GetUserName(this ClaimsPrincipal user)
     {
         var givenName = ClaimTypes.GivenName;

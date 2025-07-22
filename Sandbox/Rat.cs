@@ -11,7 +11,7 @@ public class Rat
 
     public int Age
     {
-        get => _age; 
+        get => _age;
         set => _age = value > MaxRatAge ? MaxRatAge : value;
     }
     public bool IsRadioactive { get; set; }

@@ -13,7 +13,7 @@ public static class JsonSandbox
         // "{ \"0\":{}, \"1\":{\"a\":\"b\"}, \"2\":{\"0\":1, \"1\":2, \"2\":3}, \"3\":{\"0\":\"a\", \"1\":\"b\"} }";
 
         var metaObjects = JsonSerializer.Deserialize<MetaObject>(json2);
-        
+
         Console.WriteLine(metaObjects);
     }
 }

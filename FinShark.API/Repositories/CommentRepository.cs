@@ -42,7 +42,7 @@ public class CommentRepository(ApplicationDbContext dbContext) : ICommentReposit
         {
             throw UpdateCommentException.CanNotUpdateOtherUserComment();
         }
-        
+
         comment.UpdateFromRequest(dto);
 
         await dbContext.SaveChangesAsync();

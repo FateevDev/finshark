@@ -34,7 +34,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
             services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Warning));
         });
     }
-    
+
     public async Task InitializeDatabaseAsync()
     {
         if (_initialized) return;
@@ -59,5 +59,4 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
 
         _initialized = true;
     }
-
 }
