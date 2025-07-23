@@ -1,4 +1,5 @@
 using FinShark.API.Data;
+using FinShark.API.Helpers;
 using FinShark.API.Models;
 using FinShark.API.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -32,12 +33,15 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
             // Добавляем in-memory БД
             services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
 
+            // Регистрируем реализацию IDateTimeProvider
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
             // Отключаем логирование для более чистого вывода тестов
             services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Warning));
         });
     }
 
-    public async Task InitializeDatabaseAsync()
+    public async Task InitializeDatabaseAsync(CancellationToken cancellationToken = default)
     {
         if (_initialized) return;
 
@@ -46,7 +50,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
         // Обеспечиваем создание БД
-        await context.Database.EnsureCreatedAsync();
+        await context.Database.EnsureCreatedAsync(cancellationToken);
 
         // Создаем роли
         if (!await roleManager.RoleExistsAsync("Admin"))
@@ -67,10 +71,8 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
     {
         using var scope = Services.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-        var tokenService =
-            scope.ServiceProvider.GetRequiredService<ITokenService>(); // Предполагаю, что у вас есть такой сервис
+        var tokenService = scope.ServiceProvider.GetRequiredService<ITokenService>();
 
-        // Создаем пользователя
         var user = new User
         {
             UserName = email,
@@ -84,10 +86,8 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
             throw new InvalidOperationException("Failed to create test user");
         }
 
-        // Добавляем роль
         await userManager.AddToRoleAsync(user, "User");
 
-        // Генерируем токен
         var token = tokenService.CreateToken(user);
         return token;
     }

@@ -27,7 +27,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
 
     public async ValueTask InitializeAsync()
     {
-        await _factory.InitializeDatabaseAsync();
+        await _factory.InitializeDatabaseAsync(TestContext.Current.CancellationToken);
         _authToken = await _factory.CreateUserAndGetTokenAsync();
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
     }
@@ -47,11 +47,11 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         await SeedTestStocksAsync();
 
         // Act
-        var response = await _client.GetAsync("/api/v1/stocks");
+        var response = await _client.GetAsync("/api/v1/stocks", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stocks = JsonSerializer.Deserialize<StockDto[]>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -68,11 +68,11 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         await SeedTestStocksAsync();
 
         // Act
-        var response = await _client.GetAsync("/api/v1/stocks?Symbol=AAPL");
+        var response = await _client.GetAsync("/api/v1/stocks?Symbol=AAPL", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stocks = JsonSerializer.Deserialize<StockDto[]>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -89,11 +89,11 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         await SeedTestStocksAsync();
 
         // Act
-        var response = await _client.GetAsync("/api/v1/stocks?Limit=1&Offset=0");
+        var response = await _client.GetAsync("/api/v1/stocks?Limit=1&Offset=0", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stocks = JsonSerializer.Deserialize<StockDto[]>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -110,7 +110,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         _client.DefaultRequestHeaders.Authorization = null;
 
         // Act
-        var response = await _client.GetAsync("/api/v1/stocks");
+        var response = await _client.GetAsync("/api/v1/stocks", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -127,11 +127,11 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var stockId = await CreateTestStockAsync();
 
         // Act
-        var response = await _client.GetAsync($"/api/v1/stocks/{stockId}");
+        var response = await _client.GetAsync($"/api/v1/stocks/{stockId}", TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stock = JsonSerializer.Deserialize<StockDto>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -146,7 +146,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
     public async Task GetById_WithInvalidId_ReturnsNotFound()
     {
         // Act
-        var response = await _client.GetAsync("/api/v1/stocks/999999");
+        var response = await _client.GetAsync("/api/v1/stocks/999999", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -160,7 +160,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var stockId = await CreateTestStockAsync();
 
         // Act
-        var response = await _client.GetAsync($"/api/v1/stocks/{stockId}");
+        var response = await _client.GetAsync($"/api/v1/stocks/{stockId}", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -187,12 +187,12 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync("/api/v1/stocks", content);
+        var response = await _client.PostAsync("/api/v1/stocks", content, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stock = JsonSerializer.Deserialize<StockDto>(responseContent, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -214,7 +214,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent("{}", Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync("/api/v1/stocks", content);
+        var response = await _client.PostAsync("/api/v1/stocks", content, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -238,7 +238,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync("/api/v1/stocks", content);
+        var response = await _client.PostAsync("/api/v1/stocks", content, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -266,11 +266,12 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PutAsync($"/api/v1/stocks/{stockId}", content);
+        var response =
+            await _client.PutAsync($"/api/v1/stocks/{stockId}", content, TestContext.Current.CancellationToken);
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContent = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         var stock = JsonSerializer.Deserialize<StockDto>(responseContent, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
@@ -299,7 +300,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PutAsync("/api/v1/stocks/999999", content);
+        var response = await _client.PutAsync("/api/v1/stocks/999999", content, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -324,7 +325,8 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PutAsync($"/api/v1/stocks/{stockId}", content);
+        var response =
+            await _client.PutAsync($"/api/v1/stocks/{stockId}", content, TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -341,13 +343,13 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var stockId = await CreateTestStockAsync();
 
         // Act
-        var response = await _client.DeleteAsync($"/api/v1/stocks/{stockId}");
+        var response = await _client.DeleteAsync($"/api/v1/stocks/{stockId}", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
         // Проверяем, что акция действительно удалена
-        var getResponse = await _client.GetAsync($"/api/v1/stocks/{stockId}");
+        var getResponse = await _client.GetAsync($"/api/v1/stocks/{stockId}", TestContext.Current.CancellationToken);
         Assert.Equal(HttpStatusCode.NotFound, getResponse.StatusCode);
     }
 
@@ -355,7 +357,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
     public async Task Delete_WithInvalidId_ReturnsNotFound()
     {
         // Act
-        var response = await _client.DeleteAsync("/api/v1/stocks/999999");
+        var response = await _client.DeleteAsync("/api/v1/stocks/999999", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
@@ -369,7 +371,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var stockId = await CreateTestStockAsync();
 
         // Act
-        var response = await _client.DeleteAsync($"/api/v1/stocks/{stockId}");
+        var response = await _client.DeleteAsync($"/api/v1/stocks/{stockId}", TestContext.Current.CancellationToken);
 
         // Assert
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
@@ -395,7 +397,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         };
 
         context.Stocks.Add(stock);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
         return stock.Id;
     }
 
@@ -431,7 +433,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         };
 
         context.Stocks.AddRange(stocks);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(TestContext.Current.CancellationToken);
     }
 
     #endregion
