@@ -14,13 +14,13 @@ public class TokenServiceTest
     public void CreateToken_WhenCalled_ReturnsToken()
     {
         //Arrange
-        var fixedDateTime = DateTime.UtcNow;
+        var dateTime = DateTime.UtcNow;
         var jwtSettings = new JwtSettings(
             issuer: "http://localhost",
             audience: "http://localhost",
             signingKey: "2D4g3KrC8zA9XpQ5vM7tN1jL6wY0bE55"
         );
-        var sut = new TokenService(jwtSettings, new FakeDateTimeProvider(fixedDateTime));
+        var sut = new TokenService(jwtSettings, new FakeDateTimeProvider(dateTime));
         var user = GenerateUser();
 
         //Act
@@ -47,7 +47,7 @@ public class TokenServiceTest
 
         var tokenExpirationInDays = 3;
 
-        Assert.Equal(fixedDateTime.AddDays(tokenExpirationInDays), decodedToken.ValidTo, TimeSpan.FromSeconds(1)
+        Assert.Equal(dateTime.AddDays(tokenExpirationInDays), decodedToken.ValidTo, TimeSpan.FromSeconds(1)
         );
     }
 

@@ -56,6 +56,7 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 );
 
 builder.UseIdentity();
+builder.ConfigureDateTimeProvider();
 
 var app = builder.Build();
 
