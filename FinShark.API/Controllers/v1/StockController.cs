@@ -49,15 +49,29 @@ public class StockController(IStockRepository repository) : BaseController
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto stockDto)
     {
-        var stock = await repository.UpdateAsync(id, stockDto);
+        try
+        {
+            var stock = await repository.UpdateAsync(id, stockDto);
 
-        return Ok(stock.ToStockDto());
+            return Ok(stock.ToStockDto());
+        }
+        catch (EntityNotFoundException<int>)
+        {
+            return NotFound();
+        }
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        await repository.DeleteByIdAsync(id);
+        try
+        {
+            await repository.DeleteByIdAsync(id);
+        }
+        catch (EntityNotFoundException<int>)
+        {
+            return NotFound();
+        }
 
         return NoContent();
     }

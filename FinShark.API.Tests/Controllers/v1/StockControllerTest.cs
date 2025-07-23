@@ -13,20 +13,18 @@ using Xunit;
 namespace FinShark.API.Tests.Controllers.v1;
 
 [TestSubject(typeof(StockController))]
-public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAsyncLifetime
+public class StockControllerTest : IAsyncLifetime
 {
-    private readonly TestWebApplicationFactory _factory;
-    private readonly HttpClient _client;
+    private TestWebApplicationFactory _factory = null!;
+    private HttpClient _client = null!;
     private string _authToken = string.Empty;
-
-    public StockControllerTest(TestWebApplicationFactory factory)
-    {
-        _factory = factory;
-        _client = _factory.CreateClient();
-    }
 
     public async ValueTask InitializeAsync()
     {
+        // Создаем новый factory для каждого теста
+        _factory = new TestWebApplicationFactory();
+        _client = _factory.CreateClient();
+
         await _factory.InitializeDatabaseAsync(TestContext.Current.CancellationToken);
         _authToken = await _factory.CreateUserAndGetTokenAsync();
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _authToken);
@@ -35,6 +33,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
     public ValueTask DisposeAsync()
     {
         _client?.Dispose();
+        _factory?.Dispose();
         return ValueTask.CompletedTask;
     }
 
@@ -217,7 +216,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         var response = await _client.PostAsync("/api/v1/stocks", content, TestContext.Current.CancellationToken);
 
         // Assert
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
     }
 
     [Fact]
@@ -253,8 +252,9 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
     {
         // Arrange
         var stockId = await CreateTestStockAsync();
+        var updatedSymbol = "TESTUPD";
         var updateDto = new UpdateStockRequestDto(
-            Symbol: "TEST_UPDATED",
+            Symbol: updatedSymbol,
             CompanyName: "Test Company Updated",
             Purchase: 200m,
             LastDiv: 2m,
@@ -278,7 +278,7 @@ public class StockControllerTest : IClassFixture<TestWebApplicationFactory>, IAs
         });
 
         Assert.NotNull(stock);
-        Assert.Equal("TEST_UPDATED", stock.Symbol);
+        Assert.Equal(updatedSymbol, stock.Symbol);
         Assert.Equal("Test Company Updated", stock.CompanyName);
         Assert.Equal(200m, stock.Purchase);
     }

@@ -14,7 +14,7 @@ namespace FinShark.API.Tests;
 
 public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServiceProgram>
 {
-    private bool _initialized;
+    private readonly string _databaseName = Guid.NewGuid().ToString();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -30,8 +30,11 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
             // Удаляем реальную БД
             services.RemoveAll(typeof(DbContextOptions<ApplicationDbContext>));
 
-            // Добавляем in-memory БД
-            services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+            // Каждый экземпляр factory получает уникальную БД
+            services.AddDbContext<ApplicationDbContext>(options => 
+            { 
+                options.UseInMemoryDatabase(_databaseName); 
+            });
 
             // Регистрируем реализацию IDateTimeProvider
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -43,8 +46,6 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
 
     public async Task InitializeDatabaseAsync(CancellationToken cancellationToken = default)
     {
-        if (_initialized) return;
-
         using var scope = Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -62,8 +63,6 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
         {
             await roleManager.CreateAsync(new IdentityRole("User"));
         }
-
-        _initialized = true;
     }
 
     public async Task<string> CreateUserAndGetTokenAsync(string email = "test@example.com",
