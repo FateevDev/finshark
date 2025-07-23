@@ -1,4 +1,6 @@
 using FinShark.API.Data;
+using FinShark.API.Models;
+using FinShark.API.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -58,5 +60,49 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
         }
 
         _initialized = true;
+    }
+
+    public async Task<string> CreateUserAndGetTokenAsync(string email = "test@example.com",
+        string password = "Test123!")
+    {
+        using var scope = Services.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var tokenService =
+            scope.ServiceProvider.GetRequiredService<ITokenService>(); // Предполагаю, что у вас есть такой сервис
+
+        // Создаем пользователя
+        var user = new User
+        {
+            UserName = email,
+            Email = email,
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(user, password);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("Failed to create test user");
+        }
+
+        // Добавляем роль
+        await userManager.AddToRoleAsync(user, "User");
+
+        // Генерируем токен
+        var token = tokenService.CreateToken(user);
+        return token;
+    }
+
+    public async Task<User> GetTestUserAsync(string email = "test@example.com")
+    {
+        using var scope = Services.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException("Test user not found");
+        }
+
+        return user;
     }
 }
