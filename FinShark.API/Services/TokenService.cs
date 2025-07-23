@@ -2,13 +2,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FinShark.API.Configuration;
+using FinShark.API.Helpers;
 using FinShark.API.Models;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace FinShark.API.Services;
 
-public class TokenService(JwtSettings jwtSettings) : ITokenService
+public class TokenService(JwtSettings jwtSettings, IDateTimeProvider dateTime) : ITokenService
 {
     private const int TokenExpirationInDays = 3;
 
@@ -27,7 +28,7 @@ public class TokenService(JwtSettings jwtSettings) : ITokenService
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddDays(TokenExpirationInDays),
+            Expires = dateTime.UtcNow.AddDays(TokenExpirationInDays),
             SigningCredentials = creds,
             Issuer = jwtSettings.Issuer,
             Audience = jwtSettings.Audience
