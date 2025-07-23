@@ -67,7 +67,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
     }
 
     public async Task<string> CreateUserAndGetTokenAsync(string email = "test@example.com",
-        string password = "Test123!")
+        string password = "Test123!@#$11")
     {
         using var scope = Services.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
@@ -81,9 +81,10 @@ public class TestWebApplicationFactory : WebApplicationFactory<FinSharkApiServic
         };
 
         var result = await userManager.CreateAsync(user, password);
+
         if (!result.Succeeded)
         {
-            throw new InvalidOperationException("Failed to create test user");
+            throw new InvalidOperationException($"Failed to create test user: {result.Errors.First().Description}");
         }
 
         await userManager.AddToRoleAsync(user, "User");
