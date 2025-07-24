@@ -10,6 +10,10 @@ namespace LeetCode.Tasks;
 // Даны две строки — ransomNote и magazine.
 // Верните true, если ransomNote можно составить, используя буквы из magazine, и false в противном случае.
 // Каждую букву из magazine можно использовать только один раз при составлении ransomNote.
+//
+// сложность
+// по времени - O(n, m) 
+// по памяти - O(n)
 public class RansomNote
 {
     public bool CanConstruct(string ransomNote, string magazine)
