@@ -28,16 +28,16 @@ public class RansomNote
             return false;
         }
 
-        var dictionary = GenerateCharacterUsageMap(magazine);
+        var characterUsageMap = GenerateCharacterUsageMap(magazine);
 
         foreach (var character in ransomNote)
         {
-            if (!dictionary.ContainsKey(character) || dictionary[character] == 0)
+            if (!characterUsageMap.TryGetValue(character, out var count) || count == 0)
             {
                 return false;
             }
 
-            dictionary[character]--;
+            characterUsageMap[character]--;
         }
 
         return true;
