@@ -15,9 +15,15 @@ public class RansomNote
     public bool CanConstruct(string ransomNote, string magazine)
     {
         var ransomNoteLength = ransomNote.Length;
+
+        if (ransomNoteLength == 0)
+        {
+            return true;
+        }
+
         var magazineLength = magazine.Length;
 
-        if (ransomNoteLength == 0 || magazineLength == 0 || magazineLength < ransomNoteLength)
+        if (magazineLength == 0 || magazineLength < ransomNoteLength)
         {
             return false;
         }
@@ -43,7 +49,7 @@ public class RansomNote
 
         foreach (var character in magazine)
         {
-            dictionary[character] = dictionary.GetValueOrDefault(character) + 1;
+            dictionary[character] = dictionary.GetValueOrDefault(character, 0) + 1;
         }
 
         return dictionary;
