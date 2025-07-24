@@ -14,12 +14,15 @@ public class RansomNote
 {
     public bool CanConstruct(string ransomNote, string magazine)
     {
-        var dictionary = new Dictionary<char, int>();
+        var ransomNoteLength = ransomNote.Length;
+        var magazineLength = magazine.Length;
 
-        foreach (var character in magazine)
+        if (ransomNoteLength == 0 || magazineLength == 0 || magazineLength < ransomNoteLength)
         {
-            dictionary[character] = dictionary.GetValueOrDefault(character) + 1;
+            return false;
         }
+
+        var dictionary = GenerateCharacterUsageMap(magazine);
 
         foreach (var character in ransomNote)
         {
@@ -32,5 +35,17 @@ public class RansomNote
         }
 
         return true;
+    }
+
+    private static Dictionary<char, int> GenerateCharacterUsageMap(string magazine)
+    {
+        var dictionary = new Dictionary<char, int>();
+
+        foreach (var character in magazine)
+        {
+            dictionary[character] = dictionary.GetValueOrDefault(character) + 1;
+        }
+
+        return dictionary;
     }
 }
