@@ -23,14 +23,12 @@ public class AddTwoNumbers
 {
     public ListNode Add(ListNode l1, ListNode l2)
     {
-        var result = new ListNode(0);
-
-        result = Calculate(l1, l2);
+        var result = Calculate(l1, l2, 0);
 
         return result;
     }
 
-    private ListNode Calculate(ListNode l1, ListNode l2, int carry = 0)
+    private ListNode Calculate(ListNode l1, ListNode l2, int carry, ListNode? result = null)
     {
         while (l1 != null || l2 != null)
         {
@@ -42,16 +40,17 @@ public class AddTwoNumbers
                 sum -= 10;
             }
 
-            var result = new ListNode(0)
+            if (result == null)
             {
-                Val = sum,
-                Next = Calculate(l1.Next, l2.Next, carry),
-            };
+                result = new ListNode(sum);
+            }
 
+            result.Next = Calculate(l1.Next, l2.Next, carry, result);;
+            
             return result;
         }
 
-        return new ListNode(carry);
+        return result ?? new ListNode(0);
     }
 }
 
