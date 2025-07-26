@@ -1,13 +1,16 @@
 namespace LeetCode.Tasks;
 
-// https://leetcode.com/problems/longest-substring-without-repeating-characters/
-// нужно найти самую длинную подстроку без повторяющихся символов
-// решается двумя указателями, левым и правым.
-// двигаем правый указатель, пока не наткнемся на совпадение.
-// тогда двигаем левый указатель, пока не уберем совпадение.
-// сложность
-// по времени O(n)
-// по памяти O(n)
+/*
+ * https://leetcode.com/problems/longest-substring-without-repeating-characters/
+ * нужно найти самую длинную подстроку без повторяющихся символов
+ * решается двумя указателями, левым и правым.
+ * двигаем правый указатель, пока не наткнемся на совпадение.
+ * тогда двигаем левый указатель, пока не уберем совпадение.
+ * 
+ * сложность
+ * по времени O(n)
+ * по памяти O(n)
+ */
 public class LongestSubstringWithoutRepeatingCharacters
 {
     public int FindLength(string s)
