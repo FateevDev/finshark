@@ -14,6 +14,10 @@ namespace LeetCode.Tasks;
 // сложность
 // по времени - O(n, m) 
 // по памяти - O(n)
+
+// Краткое обьяснение решения:
+// Сначала надо составить словарь буква - ее кол-во в тексте
+// Затем сверять словарь и записку, убирая из словаря использованные буквы
 public class RansomNote
 {
     public bool CanConstruct(string ransomNote, string magazine)
