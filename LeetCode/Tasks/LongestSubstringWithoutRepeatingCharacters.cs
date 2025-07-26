@@ -7,22 +7,10 @@ public class LongestSubstringWithoutRepeatingCharacters
         var longest = 0;
         var seen = new HashSet<char>();
         var left = 0;
-        var right = 0;
-        var rightChar = s[right];
 
-        while (right < s.Length - 1)
+        for (var right = 0; right < s.Length; right++)
         {
-            seen.Add(rightChar);
-
-            right++;
-            rightChar = s[right];
-
-            if (seen.Add(rightChar))
-            {
-                continue;
-            }
-
-            longest = Math.Max(longest, seen.Count);
+            var rightChar = s[right];
 
             while (seen.Contains(rightChar))
             {
@@ -30,8 +18,11 @@ public class LongestSubstringWithoutRepeatingCharacters
                 seen.Remove(leftChar);
                 left++;
             }
+
+            seen.Add(rightChar);
+            longest = Math.Max(longest, seen.Count);
         }
 
-        return Math.Max(longest, seen.Count);
+        return longest;
     }
 }
