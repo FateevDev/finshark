@@ -5,21 +5,9 @@ public class LongestSubstringWithoutRepeatingCharacters
     public int FindLength(string s)
     {
         var longest = 0;
-
-        if (s.Length == 0)
-        {
-            return longest;
-        }
-
-        if (s.Length == 1)
-        {
-            return 1;
-        }
-
         var seen = new HashSet<char>();
-
-        int left = 0;
-        int right = 0;
+        var left = 0;
+        var right = 0;
         var rightChar = s[right];
 
         while (right < s.Length - 1)
