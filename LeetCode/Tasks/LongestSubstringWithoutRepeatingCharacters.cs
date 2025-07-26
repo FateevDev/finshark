@@ -8,10 +8,8 @@ public class LongestSubstringWithoutRepeatingCharacters
         var seen = new HashSet<char>();
         var left = 0;
 
-        for (var right = 0; right < s.Length; right++)
+        foreach (var rightChar in s)
         {
-            var rightChar = s[right];
-
             while (seen.Contains(rightChar))
             {
                 var leftChar = s[left];
