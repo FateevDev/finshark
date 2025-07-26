@@ -16,19 +16,31 @@ public class LongestSubstringWithoutRepeatingCharacters
             return 1;
         }
 
-        HashSet<char> seen = new();
+        var seen = new HashSet<char>();
 
-        foreach (var character in s)
+        int left = 0;
+        int right = 0;
+        var rightChar = s[right];
+
+        while (right < s.Length - 1)
         {
-            if (seen.Contains(character))
-            {
-                longest = Math.Max(longest, seen.Count);
-                seen.Clear();
-            }
+            seen.Add(rightChar);
+            right++;
+            rightChar = s[right];
 
-            seen.Add(character);
+            if (seen.Contains(rightChar))
+            {
+                longest = seen.Count > longest ? seen.Count : longest;
+
+                while (seen.Contains(rightChar))
+                {
+                    var leftChar = s[left];
+                    seen.Remove(leftChar);
+                    left++;
+                }
+            }
         }
 
-        return Math.Max(longest, seen.Count);
+        return longest;
     }
 }

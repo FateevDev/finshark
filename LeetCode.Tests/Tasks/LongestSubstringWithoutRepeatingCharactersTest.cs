@@ -7,10 +7,14 @@ namespace LeetCode.Tests.Tasks;
 public class LongestSubstringWithoutRepeatingCharactersTest
 {
     [Theory]
-    [InlineData("asdfaaasdfghff", 6)]
+    [InlineData("abcbb", 3)]
     [InlineData("asdftyaaasdfghff", 6)]
     [InlineData("abcabca", 3)]
     [InlineData("au", 2)]
+    [InlineData("dvdf", 3)]
+    [InlineData("pwwkew", 3)]
+    [InlineData("vvddf", 2)]
+    [InlineData("abcabcbb", 3)]
     public void FindLength_WhenCalled_ReturnsExpectedResult(string s, int expected)
     {
         var sut = new LongestSubstringWithoutRepeatingCharacters();
