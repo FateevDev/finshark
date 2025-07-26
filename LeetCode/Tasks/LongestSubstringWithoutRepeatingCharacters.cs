@@ -24,28 +24,23 @@ public class LongestSubstringWithoutRepeatingCharacters
 
         while (right < s.Length - 1)
         {
-            if (!seen.Contains(rightChar))
-            {
-                seen.Add(rightChar);
-            }
+            seen.Add(rightChar);
 
             right++;
             rightChar = s[right];
 
-            if (seen.Contains(rightChar))
+            if (seen.Add(rightChar))
             {
-                longest = Math.Max(longest, seen.Count);
-
-                while (seen.Contains(rightChar))
-                {
-                    var leftChar = s[left];
-                    seen.Remove(leftChar);
-                    left++;
-                }
+                continue;
             }
-            else
+
+            longest = Math.Max(longest, seen.Count);
+
+            while (seen.Contains(rightChar))
             {
-                seen.Add(rightChar);
+                var leftChar = s[left];
+                seen.Remove(leftChar);
+                left++;
             }
         }
 
