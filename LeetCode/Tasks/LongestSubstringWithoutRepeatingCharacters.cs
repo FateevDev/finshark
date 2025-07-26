@@ -20,7 +20,7 @@ public class LongestSubstringWithoutRepeatingCharacters
             }
 
             seen.Add(rightChar);
-            longest = Math.Max(longest, seen.Count);
+            longest = Math.Max(longest, right - left + 1);
         }
 
         return longest;
