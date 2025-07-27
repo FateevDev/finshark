@@ -22,6 +22,14 @@ public class AddTwoNumbersTest
         return new TheoryData<ListNode, ListNode, ListNode>
         {
             /*
+             * Explanation: 5 + 465 = 470.
+             */
+            {
+                new ListNode(5),
+                new ListNode(5, new ListNode(6, new ListNode(4))),
+                new ListNode(0, new ListNode(7, new ListNode(4)))
+            },
+            /*
              * Explanation: 342 + 465 = 807.
              */
             {
@@ -41,9 +49,14 @@ public class AddTwoNumbersTest
              * Explanation: 9,999,999 + 9999 = 10,009,998.
              */
             {
-                new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9))))))),
+                new ListNode(9,
+                    new ListNode(9,
+                        new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9))))))),
                 new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(9)))),
-                new ListNode(8, new ListNode(9, new ListNode(9, new ListNode(9, new ListNode(0, new ListNode(0, new ListNode(0, new ListNode(1))))))))
+                new ListNode(8,
+                    new ListNode(9,
+                        new ListNode(9,
+                            new ListNode(9, new ListNode(0, new ListNode(0, new ListNode(0, new ListNode(1))))))))
             },
         };
     }

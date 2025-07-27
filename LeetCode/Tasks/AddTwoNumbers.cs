@@ -28,29 +28,30 @@ public class AddTwoNumbers
         return result;
     }
 
-    private ListNode Calculate(ListNode l1, ListNode l2, int carry, ListNode? result = null)
+    private ListNode Calculate(ListNode? l1, ListNode? l2, int carry)
     {
-        while (l1 != null || l2 != null)
+        var result = new ListNode(0);
+
+        var sum = (l1?.Val ?? 0) + (l2?.Val ?? 0) + carry;
+
+        if (sum > 9)
         {
-            var sum = l1.Val + l2.Val + carry;
-
-            if (sum > 9)
-            {
-                carry++;
-                sum -= 10;
-            }
-
-            if (result == null)
-            {
-                result = new ListNode(sum);
-            }
-
-            result.Next = Calculate(l1.Next, l2.Next, carry, result);;
-            
-            return result;
+            carry++;
+            sum -= 10;
+        }
+        else
+        {
+            carry = 0;
         }
 
-        return result ?? new ListNode(0);
+        result.Val = sum;
+
+        if (l1?.Next != null || l2?.Next != null)
+        {
+            result.Next = Calculate(l1?.Next, l2?.Next, carry);
+        }
+
+        return result;
     }
 }
 
