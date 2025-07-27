@@ -36,7 +36,7 @@ public class AddTwoNumbers
 
         if (sum > 9)
         {
-            carry++;
+            carry = 1;
             sum -= 10;
         }
         else
@@ -46,7 +46,7 @@ public class AddTwoNumbers
 
         result.Val = sum;
 
-        if (l1?.Next != null || l2?.Next != null)
+        if (l1?.Next != null || l2?.Next != null || carry != 0)
         {
             result.Next = Calculate(l1?.Next, l2?.Next, carry);
         }
