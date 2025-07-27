@@ -59,4 +59,14 @@ public class ListNode(int val, ListNode? next = null)
 {
     public int Val = val;
     public ListNode? Next = next;
+
+    public override string ToString()
+    {
+        if (Next != null)
+        {
+            return $"{Next}{Val}";
+        }
+
+        return $"{Val}";
+    }
 }

@@ -14,7 +14,7 @@ public class AddTwoNumbersTest
 
         var result = sut.Add(l1, l2);
 
-        Assert.Equal(expected, result);
+        Assert.Equal(expected.ToString(), result.ToString());
     }
 
     public static TheoryData<ListNode, ListNode, ListNode> TestData()
