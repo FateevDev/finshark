@@ -24,41 +24,30 @@ namespace LeetCode.Tasks;
  * Если сумма чисел больше 10, то переносим единичку в следующий порядок
  *
  * Сложность:
- * По времени: O(Max(m,n))
- * По памяти: O(Max(m,n))
+ * По времени: O(max(n, m)), где n и m - длины входных списков
+ * По памяти: O(max(n, m)) - стек вызовов + результирующий список
  */
 public class AddTwoNumbers
 {
     public ListNode Add(ListNode l1, ListNode l2)
     {
-        var result = Calculate(l1, l2, 0);
+        var result = AddRecursive(l1, l2, 0);
 
         return result;
     }
 
-    private ListNode Calculate(ListNode? l1, ListNode? l2, int carry)
+    private ListNode AddRecursive(ListNode? l1, ListNode? l2, int carry)
     {
-        var result = new ListNode(0);
         var sum = (l1?.Val ?? 0) + (l2?.Val ?? 0) + carry;
+        var newCarry = sum / 10;
+        var resultNode = new ListNode(sum % 10);
 
-        if (sum > 9)
+        if (l1?.Next != null || l2?.Next != null || newCarry != 0)
         {
-            carry = 1;
-            sum -= 10;
-        }
-        else
-        {
-            carry = 0;
+            resultNode.Next = AddRecursive(l1?.Next, l2?.Next, newCarry);
         }
 
-        result.Val = sum;
-
-        if (l1?.Next != null || l2?.Next != null || carry != 0)
-        {
-            result.Next = Calculate(l1?.Next, l2?.Next, carry);
-        }
-
-        return result;
+        return resultNode;
     }
 }
 
