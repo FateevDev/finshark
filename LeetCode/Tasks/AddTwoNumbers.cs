@@ -31,7 +31,7 @@ public class AddTwoNumbers
 {
     public ListNode Add(ListNode l1, ListNode l2)
     {
-        var result = AddRecursive(l1, l2, 0);
+        var result = AddIterative(l1, l2);
 
         return result;
     }
@@ -48,6 +48,27 @@ public class AddTwoNumbers
         }
 
         return resultNode;
+    }
+
+    private ListNode AddIterative(ListNode? l1, ListNode? l2)
+    {
+        var dummyHead = new ListNode(0);
+        var current = dummyHead;
+        var carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0)
+        {
+            var sum = (l1?.Val ?? 0) + (l2?.Val ?? 0) + carry;
+            carry = sum / 10;
+
+            current.Next = new ListNode(sum % 10);
+            current = current.Next;
+
+            l1 = l1?.Next;
+            l2 = l2?.Next;
+        }
+
+        return dummyHead.Next!;
     }
 }
 
