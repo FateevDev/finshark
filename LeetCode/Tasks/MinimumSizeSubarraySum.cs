@@ -10,6 +10,16 @@ namespace LeetCode.Tasks;
  * Дан массив положительных целых чисел nums и положительное целое число target.
  * Верните минимальную длину подмассива, сумма которого больше либо равна target.
  * Если такого подмассива не существует — верните 0.
+ *
+ * Краткое описание решения:
+ * Используется sliding window -
+ * Сдвигаем правый указатель, пока сумма меньше target
+ * иначе
+ * начинаем двигать левый указатель, пока сумма больше либо пока левый указатель не сравняется с правым
+ *
+ * Сложность:
+ * По времени - O(n) (т.к. в худшем случае будет пройдено O(2*n)элементов, т.е O(n) )
+ * По памяти - O(n)
  */
 public class MinimumSizeSubarraySum
 {
@@ -23,49 +33,17 @@ public class MinimumSizeSubarraySum
         {
             sum += nums[right];
 
-            if (sum < target)
-            {
-                continue;
-            }
-
-            if (sum == target)
+            while (sum >= target && left <= right)
             {
                 minLength = minLength == 0 ? right - left + 1 : Math.Min(minLength, right - left + 1);
-
-                if (minLength == 1)
-                {
-                    return minLength;
-                }
-
-                left = right;
-                sum = nums[right];
-
-                continue;
-            }
-
-
-
-            while (left <= right)
-            {
-                minLength = minLength == 0 ? right - left + 1 : Math.Min(minLength, right - left + 1);
-
-                sum -= nums[left];
-                left++;
-
-                if (sum < target)
-                {
-                    break;
-                }
-
-                if (sum >= target)
-                {
-                    minLength = minLength == 0 ? right - left + 1 : Math.Min(minLength, right - left + 1);
-                }
 
                 if (minLength == 1)
                 {
                     return 1;
                 }
+
+                sum -= nums[left];
+                left++;
             }
         }
 
