@@ -23,6 +23,11 @@ public class MinimumSizeSubarraySum
         {
             sum += nums[right];
 
+            if (sum < target)
+            {
+                continue;
+            }
+
             if (sum == target)
             {
                 minLength = minLength == 0 ? right - left + 1 : Math.Min(minLength, right - left + 1);
@@ -38,10 +43,7 @@ public class MinimumSizeSubarraySum
                 continue;
             }
 
-            if (sum <= target)
-            {
-                continue;
-            }
+
 
             while (left <= right)
             {
