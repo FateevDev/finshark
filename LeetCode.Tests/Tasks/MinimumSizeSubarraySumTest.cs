@@ -11,6 +11,8 @@ public class MinimumSizeSubarraySumTest
     [InlineData(4, new[] { 1, 4, 4 }, 1)]
     [InlineData(11, new[] { 1, 1, 1, 1, 1, 1, 1, 1 }, 0)]
     [InlineData(8, new[] { 1, 1, 1, 1, 1, 1, 1, 1 }, 8)]
+    [InlineData(80, new[] { 10, 5, 13, 4, 8, 4, 5, 11, 14, 9, 16, 10, 20, 8 }, 6)]
+    [InlineData(6, new[] { 10, 2, 3 }, 1)]
     public void MinSubArrayLen_WhenCalled_ReturnsExpectedResult(int target, int[] nums, int expected)
     {
         var sut = new MinimumSizeSubarraySum();
