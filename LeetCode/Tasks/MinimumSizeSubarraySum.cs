@@ -19,7 +19,7 @@ namespace LeetCode.Tasks;
  *
  * Сложность:
  * По времени - O(n) (т.к. в худшем случае будет пройдено O(2*n)элементов, т.е O(n) )
- * По памяти - O(n)
+ * По памяти - O(1)
  */
 public class MinimumSizeSubarraySum
 {
