@@ -62,6 +62,42 @@ public class IntegerToRoman
     {
         var result = "";
 
+        var dictionary = new Dictionary<int, string>
+        {
+            { 1000, "M" },
+            { 900, "CM" },
+            { 500, "D" },
+            { 400, "CD" },
+            { 100, "C" },
+            { 90, "XC" },
+            { 50, "L" },
+            { 40, "XL" },
+            { 10, "X" },
+            { 9, "IX" },
+            { 5, "V" },
+            { 4, "IV" },
+            { 1, "I" },
+        };
+
+        foreach (var (key, value) in dictionary)
+        {
+            var count = num / key;
+
+            for (var i = 0; i < count; i++)
+            {
+                result += value;
+            }
+
+            num -= count * key;
+        }
+
+        return result;
+    }
+
+    public string IntToRoman2(int num)
+    {
+        var result = "";
+    
         var dictionary = new[]
         {
             new[] { "I", "V", "X" },
@@ -70,12 +106,12 @@ public class IntegerToRoman
             new[] { "M" },
         };
         var asString = num.ToString();
-
+    
         for (var i = 1; i <= asString.Length; i++)
         {
             var currentDictionary = dictionary[asString.Length - i];
             var currentValue = int.Parse(asString[i - 1].ToString());
-
+    
             switch (currentValue)
             {
                 case < 4 or (> 4 and < 9):
@@ -85,7 +121,7 @@ public class IntegerToRoman
                     {
                         baseChar += currentDictionary[0];
                     }
-
+    
                     result += baseChar;
                     break;
                 }
@@ -97,7 +133,7 @@ public class IntegerToRoman
                     break;
             }
         }
-
+    
         return result;
     }
 }
