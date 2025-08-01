@@ -19,10 +19,13 @@ public class GroupAnagramsSolution
         foreach (var str in strs)
         {
             var hash = Hash(str);
-            var group = groups.TryGetValue(hash, out var found) ? found : [];
 
-            group.Add(str);
-            groups[hash] = group;
+            if (!groups.ContainsKey(hash))
+            {
+                groups[hash] = [];
+            }
+
+            groups[hash].Add(str);
         }
 
         return groups.Values.ToList<IList<string>>();
@@ -30,13 +33,6 @@ public class GroupAnagramsSolution
 
     private string Hash(string str)
     {
-        var dictionary = new Dictionary<char, int>();
-
-        foreach (var c in str.Order())
-        {
-            dictionary[c] = dictionary.GetValueOrDefault(c, 0) + 1;
-        }
-
-        return string.Join("", dictionary.Select(kvp => kvp.Key.ToString() + kvp.Value));
+        return new string(str.Order().ToArray());
     }
 }
