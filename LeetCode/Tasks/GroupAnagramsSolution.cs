@@ -18,34 +18,25 @@ public class GroupAnagramsSolution
 
         foreach (var str in strs)
         {
-            var sortedLetters = SortedLetters(str);
-            var group = groups.TryGetValue(sortedLetters, out var found) ? found : [];
+            var hash = Hash(str);
+            var group = groups.TryGetValue(hash, out var found) ? found : [];
 
             group.Add(str);
-            groups[sortedLetters] = group;
+            groups[hash] = group;
         }
 
         return groups.Values.ToList<IList<string>>();
     }
 
-    private string SortedLetters(string str)
+    private string Hash(string str)
     {
-        var list = "";
-        char min = '~';
-        var chars = str.ToList();
+        var dictionary = new Dictionary<char, int>();
 
-        while (chars.Count > 0)
+        foreach (var c in str.Order())
         {
-            foreach (var c in chars)
-            {
-                min = min > c ? c : min;
-            }
-
-            list += min;
-            chars.Remove(min);
-            min = '~';
+            dictionary[c] = dictionary.GetValueOrDefault(c, 0) + 1;
         }
 
-        return list;
+        return string.Join("", dictionary.Select(kvp => kvp.Key.ToString() + kvp.Value));
     }
 }
