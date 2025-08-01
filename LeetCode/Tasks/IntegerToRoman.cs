@@ -58,7 +58,7 @@ namespace LeetCode.Tasks;
  */
 public class IntegerToRoman
 {
-    public string IntToRoman(int num)
+    public string IntToRoman2(int num)
     {
         var result = "";
 
@@ -94,24 +94,22 @@ public class IntegerToRoman
         return result;
     }
 
-    public string IntToRoman2(int num)
+    public string IntToRoman(int num)
     {
         var result = "";
-    
-        var dictionary = new[]
+
+        var dictionary = new List<(int, string[])>
         {
-            new[] { "I", "V", "X" },
-            new[] { "X", "L", "C" },
-            new[] { "C", "D", "M" },
-            new[] { "M" },
+            (1000, ["M"]),
+            (100, ["C", "D", "M"]),
+            (10, ["X", "L", "C"]),
+            (1, ["I", "V", "X"]),
         };
-        var asString = num.ToString();
-    
-        for (var i = 1; i <= asString.Length; i++)
+
+        foreach (var (item1, currentDictionary) in dictionary)
         {
-            var currentDictionary = dictionary[asString.Length - i];
-            var currentValue = int.Parse(asString[i - 1].ToString());
-    
+            var currentValue = (num / item1) % 10;
+
             switch (currentValue)
             {
                 case < 4 or (> 4 and < 9):
@@ -121,7 +119,7 @@ public class IntegerToRoman
                     {
                         baseChar += currentDictionary[0];
                     }
-    
+
                     result += baseChar;
                     break;
                 }
@@ -133,7 +131,7 @@ public class IntegerToRoman
                     break;
             }
         }
-    
+
         return result;
     }
 }
