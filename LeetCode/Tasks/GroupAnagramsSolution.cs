@@ -8,7 +8,9 @@ namespace LeetCode.Tasks;
  * Дан массив строк, нужно сгруппировать анаграммы вместе.
  * Вернуть результат в любом порядке.
  *
- *
+ * Сложность:
+ * По времени O(n × m)
+ * По памяти O(n × m) - т.к. считается хранение символа, а не строки (кол-во строк * кол-во символов)
  */
 public class GroupAnagramsSolution
 {
@@ -33,6 +35,13 @@ public class GroupAnagramsSolution
 
     private string Hash(string str)
     {
-        return new string(str.Order().ToArray());
+        var counts = new int[26];
+
+        foreach (var c in str)
+        {
+            counts[c - 'a']++;
+        }
+
+        return string.Join("", counts);
     }
 }
