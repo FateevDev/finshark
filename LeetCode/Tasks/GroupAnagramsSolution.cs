@@ -42,6 +42,6 @@ public class GroupAnagramsSolution
             counts[c - 'a']++;
         }
 
-        return string.Join("", counts);
+        return string.Join(":", counts);
     }
 }
