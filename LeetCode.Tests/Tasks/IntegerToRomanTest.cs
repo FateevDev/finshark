@@ -8,6 +8,7 @@ public class IntegerToRomanTest
 {
 
     [Theory]
+    [InlineData(39, "XXXIX")]
     [InlineData(3749, "MMMDCCXLIX")]
     [InlineData(58, "LVIII")]
     [InlineData(1994, "MCMXCIV")]

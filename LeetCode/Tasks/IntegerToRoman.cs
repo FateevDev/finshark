@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace LeetCode.Tasks;
 
 /*
@@ -42,6 +44,20 @@ namespace LeetCode.Tasks;
  * Если нужно добавить символ 4 раза, использовать формы вычитания
  *
  * Краткое описание решения:
+ * Жадный алгоритм:
+ * * массивы а не словарь используются, т.к. они работают быстрее
+ * 1. Циклом идем по массиву значений.
+ * 2. Пока число больше текущего значения, то
+ * 3. Добавляем к строке соответсвующий символ из symbols и
+ * 4. Отнимаем от числа текущий элемент value
+ * Это соответствует человеческой логике - смотрим, какое число самое большое и пытаемся в него уместить символы 
+ *
+ * Сложность:
+ * По времени - O(1)
+ * По памяти - O(1)
+ *
+ * 
+ * Словарь:
  * Каждый порядок обрабатывается как остальные, просто меняется словарь:
  * 1. Находим словарь
  * 2. Находим текущее значение
@@ -53,11 +69,29 @@ namespace LeetCode.Tasks;
  * 6. Если это число 9 - символы из словаря с индексами 2 + 0
  *
  * Сложность:
- * По времени - O(n)
+ * По времени - O(1)
  * По памяти - O(1)
  */
 public class IntegerToRoman
 {
+    public string IntToRoman(int num)
+    {
+        int[] values = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        string[] symbols = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        StringBuilder roman = new();
+
+        for (var i = 0; i < values.Length && num > 0; i++)
+        {
+            while (num >= values[i])
+            {
+                roman.Append(symbols[i]);
+                num -= values[i];
+            }
+        }
+
+        return roman.ToString();
+    }
+
     public string IntToRoman2(int num)
     {
         var result = "";
@@ -94,7 +128,7 @@ public class IntegerToRoman
         return result;
     }
 
-    public string IntToRoman(int num)
+    public string IntToRoman3(int num)
     {
         var result = "";
 
