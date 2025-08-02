@@ -30,7 +30,7 @@ public class GroupAnagramsSolution
             groups[hash].Add(str);
         }
 
-        return groups.Values.ToList<IList<string>>();
+        return new List<IList<string>>(groups.Values);
     }
 
     private string Hash(string str)
