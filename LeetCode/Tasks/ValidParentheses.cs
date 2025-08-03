@@ -34,24 +34,20 @@ public class ValidParentheses
             { '[', ']' },
         };
 
-        var seen = new List<char>();
+        var seen = new Stack<char>();
 
         foreach (var currentCharacter in s)
         {
             if (dictionary.ContainsKey(currentCharacter))
             {
-                seen.Add(currentCharacter);
+                seen.Push(currentCharacter);
                 continue;
             }
 
-            var last = seen.LastOrDefault(defaultValue: 'a');
+            seen.TryPop(out var last);
             var lastCharacter = dictionary.GetValueOrDefault(last, 'b');
 
-            if (lastCharacter == currentCharacter)
-            {
-                seen.RemoveAt(seen.Count - 1);
-            }
-            else
+            if (lastCharacter != currentCharacter)
             {
                 return false;
             }
