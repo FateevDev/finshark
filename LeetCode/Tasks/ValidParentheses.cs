@@ -68,8 +68,7 @@ public class ValidParentheses
                 return false;
             }
 
-            var last = seen.Pop();
-            var lastCharacter = dictionary.GetValueOrDefault(last, '\0');
+            var lastCharacter = dictionary[seen.Pop()];
 
             if (lastCharacter != currentCharacter)
             {
