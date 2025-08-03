@@ -68,9 +68,9 @@ public class ValidParentheses
                 return false;
             }
 
-            var lastCharacter = dictionary[seen.Pop()];
+            var expectedClosingParenthesis = dictionary[seen.Pop()];
 
-            if (lastCharacter != currentCharacter)
+            if (expectedClosingParenthesis != currentCharacter)
             {
                 return false;
             }
