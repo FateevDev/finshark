@@ -14,6 +14,7 @@ public class ValidParenthesesTest
     [InlineData("([)]", false)]
     [InlineData("]", false)]
     [InlineData("]]]", false)]
+    [InlineData("]]", false)]
     [InlineData("({{{{}}}))", false)]
     [InlineData("([]){", false)]
     [InlineData("(])", false)]

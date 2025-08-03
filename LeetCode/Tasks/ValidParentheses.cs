@@ -37,6 +37,11 @@ public class ValidParentheses
 {
     public bool IsValid(string s)
     {
+        if (s.Length % 2 != 0)
+        {
+            return false;
+        }
+
         var dictionary = new Dictionary<char, char>
         {
             { '(', ')' },
@@ -48,14 +53,21 @@ public class ValidParentheses
 
         foreach (var currentCharacter in s)
         {
-            if (dictionary.ContainsKey(currentCharacter))
+            var isOpeningParenthesis = dictionary.ContainsKey(currentCharacter);
+
+            if (isOpeningParenthesis)
             {
                 seen.Push(currentCharacter);
                 continue;
             }
 
-            seen.TryPop(out var last);
-            var lastCharacter = dictionary.GetValueOrDefault(last, 'b');
+            if (seen.Count == 0)
+            {
+                return false;
+            }
+
+            var last = seen.Pop();
+            var lastCharacter = dictionary.GetValueOrDefault(last, '\0');
 
             if (lastCharacter != currentCharacter)
             {
