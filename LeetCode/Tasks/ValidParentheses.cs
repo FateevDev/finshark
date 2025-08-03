@@ -36,24 +36,24 @@ public class ValidParentheses
 
         var seen = new List<char>();
 
-        foreach (var c in s)
+        foreach (var currentCharacter in s)
         {
-            if (dictionary.ContainsKey(c))
+            if (dictionary.ContainsKey(currentCharacter))
             {
-                seen.Add(c);
+                seen.Add(currentCharacter);
                 continue;
             }
 
-            if (seen.Count == 0)
+            var last = seen.LastOrDefault(defaultValue: 'a');
+            var lastCharacter = dictionary.GetValueOrDefault(last, 'b');
+
+            if (lastCharacter == currentCharacter)
+            {
+                seen.RemoveAt(seen.Count - 1);
+            }
+            else
             {
                 return false;
-            }
-
-            var last = seen.Last();
-
-            if (dictionary[last] == c)
-            {
-                seen.Remove(last);
             }
         }
 

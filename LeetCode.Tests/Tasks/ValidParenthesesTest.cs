@@ -16,12 +16,14 @@ public class ValidParenthesesTest
     [InlineData("]]]", false)]
     [InlineData("({{{{}}}))", false)]
     [InlineData("([]){", false)]
+    [InlineData("(])", false)]
+    [InlineData("[([]])", false)]
     public void IsValid_WhenCalled_ReturnsExpectedResults(string s, bool expected)
     {
         var sut = new ValidParentheses();
 
         var result = sut.IsValid(s);
-        
+
         Assert.Equal(expected, result);
     }
 }
