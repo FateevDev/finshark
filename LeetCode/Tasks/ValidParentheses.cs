@@ -27,63 +27,36 @@ public class ValidParentheses
 {
     public bool IsValid(string s)
     {
-        if (s.Length == 1)
+        var dictionary = new Dictionary<char, char>
         {
-            return false;
-        }
-
-        var dictionary = new Dictionary<char, char>()
-        {
-            { ')', '(' },
-            { '}', '{' },
-            { ']', '[' },
+            { '(', ')' },
+            { '{', '}' },
+            { '[', ']' },
         };
 
-        var left = 0;
-        var isCenter = false;
-        var isValid = false;
-        var symbolSeen = 0;
+        var seen = new List<char>();
 
-        for (int right = 0; right < s.Length; right++)
+        foreach (var c in s)
         {
-            var currentChar = s[right];
-
-            if (symbolSeen == 0 && isCenter == true)
+            if (dictionary.ContainsKey(c))
             {
-                isCenter = false;
-                symbolSeen = 0;
+                seen.Add(c);
+                continue;
             }
 
-            if (isCenter == false && dictionary.ContainsKey(currentChar))
+            if (seen.Count == 0)
             {
-                left = right - 1;
-                isCenter = true;
+                return false;
             }
 
-            if (isCenter)
+            var last = seen.Last();
+
+            if (dictionary[last] == c)
             {
-                if (symbolSeen == 0)
-                {
-                    return false;
-                }
-
-                isValid = dictionary[currentChar] == s[left];
-
-                if (isValid == false)
-                {
-                    return false;
-                }
-
-                left--;
-                symbolSeen--;
-            }
-
-            if (isCenter == false)
-            {
-                symbolSeen++;
+                seen.Remove(last);
             }
         }
 
-        return isValid;
+        return seen.Count == 0;
     }
 }
