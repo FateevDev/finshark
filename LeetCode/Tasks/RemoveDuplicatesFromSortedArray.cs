@@ -57,4 +57,26 @@ public class RemoveDuplicatesFromSortedArray
 
         return left + 1;
     }
+
+    /*
+     * OnePointer
+     * Есть окно из 2 элементов и указатель.
+     * Указатель стоит на втором элементе.
+     * Сравниваем числа в окне - если они не равны, то ставим число на указатель и двигаем указатель.
+     * Цикл начинается со второго элемента! Окно смотрит на текущий и предыдущий элемент.
+     */
+    public int RemoveDuplicates2(int[] nums)
+    {
+        var pointer = 1;
+
+        for (int i = 1; i < nums.Length; i++)
+        {
+            if (nums[i - 1] != nums[i])
+            {
+                nums[pointer++] = nums[i];
+            }
+        }
+
+        return pointer;
+    }
 }
