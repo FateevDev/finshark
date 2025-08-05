@@ -113,3 +113,11 @@ int GetCurrentYear()
 
     return Convert.ToInt32(currentDate.ToString("yyyy-MM-dd").Substring(0, 4));
 }
+
+var arr4 = new byte[10];
+arr4.AsSpan();
+
+ReadOnlySpan<char> readOnlySpan = "TechDay 2025";
+var yearSpan = readOnlySpan[^4..];
+
+Console.WriteLine(yearSpan.ToString());
