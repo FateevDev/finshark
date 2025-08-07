@@ -55,7 +55,7 @@ public class ValidPalindrome
                 continue;
             }
 
-            if (char.ToLower(leftChar) != char.ToLower(rightChar))
+            if (char.ToLowerInvariant(leftChar) != char.ToLowerInvariant(rightChar))
             {
                 return false;
             }
