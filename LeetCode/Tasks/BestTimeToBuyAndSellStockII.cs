@@ -32,24 +32,16 @@ public class BestTimeToBuyAndSellStockII
     public int MaxProfit(int[] prices)
     {
         var maxProfit = 0;
-        var pointer1 = 0;
-        var pointer2 = 1;
 
-        while (pointer2 < prices.Length)
+        for (var i = 1; i < prices.Length; i++)
         {
-            var rightPrice = prices[pointer2];
-            var leftPrice = prices[pointer1];
-            var profit = rightPrice - leftPrice;
+            var profit = prices[i] - prices[i - 1];
 
             if (profit > 0)
             {
                 maxProfit += profit;
             }
-
-            pointer1++;
-            pointer2++;
         }
-
 
         return maxProfit;
     }
