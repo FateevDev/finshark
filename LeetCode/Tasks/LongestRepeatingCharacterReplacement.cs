@@ -23,51 +23,23 @@ public class LongestRepeatingCharacterReplacement
     public int CharacterReplacement(string s, int k)
     {
         var longest = 0;
+        var left = 0;
+        var right = 0;
 
-        for (var i = 0; i < s.Length; i++)
+        while (right < s.Length)
         {
-            var currentLongest = 1;
-            var currentChar = s[i];
-            var pointer = i;
-            var remainReplacements = k;
-
-            while (remainReplacements >= 0)
-            {
-                longest = Math.Max(longest, currentLongest);
-
-                if (longest == s.Length)
-                {
-                    return longest;
-                }
-
-                if (pointer == (s.Length - 1))
-                {
-                    pointer = i;
-                    pointer--;
-                }
-                else if (pointer < i)
-                {
-                    pointer--;
-                }
-                else
-                {
-                    pointer++;
-                }
-
-                if (s[pointer] != currentChar)
-                {
-                    if (remainReplacements == 0)
-                    {
-                        break;
-                    }
-
-                    remainReplacements--;
-                }
-
-                currentLongest++;
-            }
+            var windowLenght = right - left + 1;
+            var currentCharacter = s[right];
         }
 
         return longest;
+    }
+
+    private int maxCountCharacter(char currentCharacter)
+    {
+        var array = new int [26];
+
+        array[currentCharacter - 'A']++;
+
     }
 }
