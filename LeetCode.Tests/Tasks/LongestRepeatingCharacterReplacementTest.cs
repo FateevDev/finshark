@@ -13,6 +13,7 @@ public class LongestRepeatingCharacterReplacementTest
     [InlineData("ABDD", 2, 4)]
     [InlineData("ABAA", 0, 2)]
     [InlineData("ABC", 1, 2)]
+    [InlineData("DDBACE", 1, 3)]
     public void CharacterReplacement_WhenCalled_ReturnsExpectedResult(string s, int k, int expected)
     {
         var sut = new LongestRepeatingCharacterReplacement();
