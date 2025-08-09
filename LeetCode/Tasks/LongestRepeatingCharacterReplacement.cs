@@ -39,10 +39,12 @@ public class LongestRepeatingCharacterReplacement
             charCount[currentCharacter - 'A']++;
             maxFrequency = Math.Max(maxFrequency, charCount[currentCharacter - 'A']);
 
-            if (windowLength - maxFrequency > k)
+            if (k < windowLength - maxFrequency)
             {
                 charCount[s[left] - 'A']--;
                 left++;
+                
+                continue;
             }
 
             longest = Math.Max(windowLength, longest);
