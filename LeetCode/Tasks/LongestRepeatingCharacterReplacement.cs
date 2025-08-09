@@ -25,21 +25,42 @@ public class LongestRepeatingCharacterReplacement
         var longest = 0;
         var left = 0;
         var right = 0;
+        var charCount = new int [26];
 
         while (right < s.Length)
         {
             var windowLenght = right - left + 1;
             var currentCharacter = s[right];
+            var maxCount = MaxCountCharacter(currentCharacter, charCount);
+            var charsToReplace = windowLenght - maxCount;
+
+            if (charsToReplace <= k)
+            {
+                longest = Math.Max(windowLenght, longest);
+            }
+            else
+            {
+                charCount[s[left] - 'A']--;
+                left++;
+            }
+
+            right++;
         }
 
         return longest;
     }
 
-    private int maxCountCharacter(char currentCharacter)
+    private int MaxCountCharacter(char currentCharacter, int[] charCount)
     {
-        var array = new int [26];
+        var maxCount = 0;
 
-        array[currentCharacter - 'A']++;
+        charCount[currentCharacter - 'A']++;
 
+        foreach (var count in charCount)
+        {
+            maxCount = Math.Max(maxCount, count);
+        }
+
+        return maxCount;
     }
 }
