@@ -33,7 +33,7 @@ public class CombinationSumSolutionTest
         yield return
         [
             new[] { 2, 3, 5 },
-            7,
+            8,
             new List<IList<int>> { new[] { 2, 2, 2, 2 }, new[] { 2, 3, 3 }, new[] { 3, 5 } },
         ];
 

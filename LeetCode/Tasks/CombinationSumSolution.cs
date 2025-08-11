@@ -13,10 +13,10 @@ namespace LeetCode.Tasks;
  *
  * Сумма комбинации
  * Дан массив отдельных целых чисел candidates и целевое число target.
- * Вернуть список всех уникальных комбинаций candidates где числа в сумме дают target
+ * Вернуть список всех уникальных комбинаций candidates где числа в сумме дают target.
  * Комбинации можно вернуть в любом порядке
  *
- * Одно и то же число может быть взято из candidates неограниченное число раз
+ * Одно и то же число может быть взято из candidates неограниченное число раз.
  * 2 комбинации уникальные, если частота хотя бы одного числа разная.
  *
  *
@@ -25,6 +25,48 @@ public class CombinationSumSolution
 {
     public IList<IList<int>> CombinationSum(int[] candidates, int target)
     {
-        return new List<IList<int>> { new[] { 2, 2, 3 }, new[] { 7 } };
+        var results = new List<IList<int>>();
+        var currentIndex = 0;
+
+        Array.Sort(candidates);
+
+        Backtrack(candidates, target, currentIndex, new List<int>(), results);
+
+        return results;
+    }
+
+    private static void Backtrack(
+        int[] candidates,
+        int target,
+        int currentIndex,
+        List<int> currentCombination,
+        IList<IList<int>> results)
+    {
+        if (target == 0)
+        {
+            results.Add(new List<int>(currentCombination));
+            return;
+        }
+
+        if (target < 0)
+        {
+            return;
+        }
+
+        for (var i = currentIndex; i < candidates.Length; i++)
+        {
+            var candidate = candidates[i];
+
+            if (candidate > target)
+            {
+                break;
+            }
+
+            currentCombination.Add(candidate);
+
+            Backtrack(candidates, target - candidate, i, currentCombination, results);
+
+            currentCombination.RemoveAt(currentCombination.Count - 1);
+        }
     }
 }
