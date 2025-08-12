@@ -34,5 +34,10 @@ public class EncodeAndDecodeStringsTest
         [
             new List<string> { "5:abc", "de2:fg" },
         ];
+        
+        yield return
+        [
+            new List<string> { "" },
+        ];
     }
 }
