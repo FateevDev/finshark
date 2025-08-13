@@ -47,7 +47,7 @@ public class EncodeAndDecodeStrings
 
         foreach (var str in strs)
         {
-            result.Append($"{str.Length}:{str}");
+            result.Append(str.Length).Append(':').Append(str);
         }
 
         return result.ToString();
