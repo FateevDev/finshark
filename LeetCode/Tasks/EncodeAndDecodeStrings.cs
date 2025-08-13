@@ -34,46 +34,44 @@ public class EncodeAndDecodeStrings
     {
         var result = new List<string>();
         var delimiter = ':';
-        var charsCountAsString = "";
-        var charsCount = -1;
         var isCharsCountFound = false;
         var currentWord = "";
+        var currentStringLenght = 0;
 
         for (var right = 0; right < s.Length; right++)
         {
             var currentChar = s[right];
 
-            if (charsCount > 0)
+            if (currentStringLenght > 0)
             {
                 currentWord += currentChar;
-                charsCount--;
+                currentStringLenght--;
 
-                if (charsCount == 0)
+                if (currentStringLenght == 0)
                 {
                     result.Add(currentWord);
                     currentWord = "";
                     isCharsCountFound = false;
-                    charsCountAsString = "";
+                    currentStringLenght = 0;
                     continue;
                 }
             }
 
             if (isCharsCountFound == false)
             {
-                if (currentChar == delimiter)
+                if (char.IsDigit(currentChar))
+                {
+                    currentStringLenght = currentStringLenght * 10 + (currentChar - '0');
+                }
+                else if (currentChar == delimiter)
                 {
                     isCharsCountFound = true;
-                    int.TryParse(charsCountAsString, out charsCount);
 
-                    if (charsCount == 0)
+                    if (currentStringLenght == 0)
                     {
                         return new List<string> { "" };
                     }
-
-                    continue;
                 }
-
-                charsCountAsString += currentChar;
             }
         }
 
