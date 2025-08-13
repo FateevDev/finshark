@@ -49,7 +49,7 @@ public class EncodeAndDecodeStrings
             if (currentChar == ':')
             {
                 index++;
-                result.Add(s.Substring(index, currentStringLenght));
+                result.Add(s.AsSpan(index, currentStringLenght).ToString());
 
                 index += currentStringLenght;
                 currentStringLenght = 0;
