@@ -33,8 +33,6 @@ public class EncodeAndDecodeStrings
     public List<string> Decode(string s)
     {
         var result = new List<string>();
-        var delimiter = ':';
-        var isCharsCountFound = false;
         var currentStringLenght = 0;
         var index = 0;
 
@@ -42,30 +40,17 @@ public class EncodeAndDecodeStrings
         {
             var currentChar = s[index];
 
-            if (isCharsCountFound == false)
+            if (char.IsDigit(currentChar))
             {
-                if (char.IsDigit(currentChar))
-                {
-                    currentStringLenght = currentStringLenght * 10 + (currentChar - '0');
-                }
-                else if (currentChar == delimiter)
-                {
-                    isCharsCountFound = true;
-
-                    if (currentStringLenght == 0)
-                    {
-                        return new List<string> { "" };
-                    }
-                }
+                currentStringLenght = currentStringLenght * 10 + (currentChar - '0');
+                index++;
             }
 
-            index++;
-
-            if (isCharsCountFound)
+            if (currentChar == ':')
             {
+                index++;
                 result.Add(s.Substring(index, currentStringLenght));
 
-                isCharsCountFound = false;
                 index += currentStringLenght;
                 currentStringLenght = 0;
             }
