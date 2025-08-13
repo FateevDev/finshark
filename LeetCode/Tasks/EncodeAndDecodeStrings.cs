@@ -35,13 +35,12 @@ public class EncodeAndDecodeStrings
         var result = new List<string>();
         var delimiter = ':';
         var isCharsCountFound = false;
-        var currentWord = "";
         var currentStringLenght = 0;
-        var isFirstDelimiter = true;
+        var index = 0;
 
-        for (var right = 0; right < s.Length; right++)
+        while (index < s.Length)
         {
-            var currentChar = s[right];
+            var currentChar = s[index];
 
             if (isCharsCountFound == false)
             {
@@ -60,25 +59,15 @@ public class EncodeAndDecodeStrings
                 }
             }
 
-            if (currentStringLenght > 0 && isCharsCountFound)
+            index++;
+
+            if (isCharsCountFound)
             {
-                if (currentChar == delimiter && isFirstDelimiter)
-                {
-                    isFirstDelimiter = false;
-                    continue;
-                }
+                result.Add(s.Substring(index, currentStringLenght));
 
-                currentWord += currentChar;
-                currentStringLenght--;
-
-                if (currentStringLenght == 0)
-                {
-                    result.Add(currentWord);
-                    currentWord = "";
-                    isCharsCountFound = false;
-                    currentStringLenght = 0;
-                    isFirstDelimiter = true;
-                }
+                isCharsCountFound = false;
+                index += currentStringLenght;
+                currentStringLenght = 0;
             }
         }
 
