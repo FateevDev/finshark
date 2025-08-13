@@ -37,25 +37,11 @@ public class EncodeAndDecodeStrings
         var isCharsCountFound = false;
         var currentWord = "";
         var currentStringLenght = 0;
+        var isFirstDelimiter = true;
 
         for (var right = 0; right < s.Length; right++)
         {
             var currentChar = s[right];
-
-            if (currentStringLenght > 0)
-            {
-                currentWord += currentChar;
-                currentStringLenght--;
-
-                if (currentStringLenght == 0)
-                {
-                    result.Add(currentWord);
-                    currentWord = "";
-                    isCharsCountFound = false;
-                    currentStringLenght = 0;
-                    continue;
-                }
-            }
 
             if (isCharsCountFound == false)
             {
@@ -71,6 +57,27 @@ public class EncodeAndDecodeStrings
                     {
                         return new List<string> { "" };
                     }
+                }
+            }
+
+            if (currentStringLenght > 0 && isCharsCountFound)
+            {
+                if (currentChar == delimiter && isFirstDelimiter)
+                {
+                    isFirstDelimiter = false;
+                    continue;
+                }
+
+                currentWord += currentChar;
+                currentStringLenght--;
+
+                if (currentStringLenght == 0)
+                {
+                    result.Add(currentWord);
+                    currentWord = "";
+                    isCharsCountFound = false;
+                    currentStringLenght = 0;
+                    isFirstDelimiter = true;
                 }
             }
         }
