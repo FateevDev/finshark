@@ -68,14 +68,17 @@ public class EncodeAndDecodeStrings
                 currentStringLenght = currentStringLenght * 10 + (currentChar - '0');
                 index++;
             }
-
-            if (currentChar == ':')
+            else if (currentChar == ':')
             {
                 index++;
                 result.Add(s.AsSpan(index, currentStringLenght).ToString());
 
                 index += currentStringLenght;
                 currentStringLenght = 0;
+            }
+            else
+            {
+                return result;
             }
         }
 
