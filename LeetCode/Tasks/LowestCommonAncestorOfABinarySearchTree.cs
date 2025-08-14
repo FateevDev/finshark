@@ -15,28 +15,80 @@ namespace LeetCode.Tasks;
  * Наименьший общий предок определяется между двумя нодами p и q как наименьшая нода в дереве,
  * которая имеет оба p и q как потомков (где мы позволяем ноде быть потомком себя)
  *
+ * Описание решения:
+ * Решение основано на свойстве BST:
+ * - все значения а левом поддереве меньше текущей ноды
+ * - все значения а правом поддереве больше текущей ноды
+ *
+ * Можно решить рекурсией, а можно итеративно (как и любую рекурсивную задачу)
+ * Итеративное решение лучше, т.к. нет расхода памяти на рекурсию
+ *
+ * Примеры
+ *   Корректное BST
+ *      8
+ *     / \
+ *    3   10
+ *   / \    \
+ *  1   6    14
+ *     / \   /
+ *    4   7 13
+ *
+ *  Некорректное BST
+ *        8            ← корень
+ *      /   \
+ *     3      10       ← всё что слева от 8 должно быть < 8
+ *    / \       \
+ *   1   6       14
+ *      / \      /
+ *     4   7   13
+ *    /     \
+ *   3       10        ← эта 10 в левом поддереве от корня 8!
+ *
+ * Т.к. BST упорядочено, достаточно сравнивать только значения нод:
+ * Если оба значения меньше текущей ноды, значит, идем влево
+ * Если оба значения больше текущей ноды, значит, идем право
+ * Иначе - мы нашли наименьшего общего предка, т.к. нашли разветвление в BST
+ *
+ * Сложность:
+ * По времени O(log n)
+ * По памяти O(1)
  */
 public class LowestCommonAncestorOfABinarySearchTree
 {
-    private TreeNode? lowest = null;
-
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
     {
-        var leftNode = p.val < q.val ? p : q;
-        var rightNode = leftNode == p ? q : p;
-
-        if (
-            (root.left?.val == leftNode.val && root.right?.val == rightNode.val)
-            || root.val == leftNode.val
-            || root.val == rightNode.val
-        )
+        if (p.val > root.val && q.val > root.val)
         {
-            return root;
+            return LowestCommonAncestor(root.right!, p, q);
         }
 
-        var nextNode = p.val > root.val && q.val > root.val ? root.right : root.left;
+        if (p.val < root.val && q.val < root.val)
+        {
+            return LowestCommonAncestor(root.left!, p, q);
+        }
 
-        return LowestCommonAncestor(nextNode!, p, q);
+        return root;
+    }
+
+    public TreeNode? LowestCommonAncestorIterative(TreeNode? root, TreeNode p, TreeNode q)
+    {
+        while (root != null)
+        {
+            if (p.val > root.val && q.val > root.val)
+            {
+                root = root.right!;
+            }
+            else if (p.val < root.val && q.val < root.val)
+            {
+                root = root.left!;
+            }
+            else
+            {
+                return root;
+            }
+        }
+
+        return null;
     }
 }
 

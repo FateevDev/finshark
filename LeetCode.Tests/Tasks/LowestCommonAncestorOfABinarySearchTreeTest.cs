@@ -17,9 +17,9 @@ public class LowestCommonAncestorOfABinarySearchTreeTest
     {
         var sut = new LowestCommonAncestorOfABinarySearchTree();
 
-        var lowestCommonAncestor = sut.LowestCommonAncestor(root, p, q);
+        var lowestCommonAncestor = sut.LowestCommonAncestorIterative(root, p, q);
 
-        Assert.Equal(expected.val, lowestCommonAncestor.val);
+        Assert.Equal(expected.val, lowestCommonAncestor?.val);
     }
 
     public static TheoryData<TreeNode, TreeNode, TreeNode, TreeNode> TestData()
@@ -45,6 +45,15 @@ public class LowestCommonAncestorOfABinarySearchTreeTest
                 new TreeNode(2)
             },
             {
+                new TreeNode(6,
+                    new TreeNode(2, new TreeNode(0), new TreeNode(4, new TreeNode(3), new TreeNode(5))),
+                    new TreeNode(8, new TreeNode(7), new TreeNode(8))
+                ),
+                new TreeNode(3),
+                new TreeNode(5),
+                new TreeNode(4)
+            },
+            {
                 new TreeNode(2, new TreeNode(1)),
                 new TreeNode(2),
                 new TreeNode(1),
@@ -54,7 +63,13 @@ public class LowestCommonAncestorOfABinarySearchTreeTest
                 new TreeNode(3, new TreeNode(1, right: new TreeNode(2)), new TreeNode(4)),
                 new TreeNode(2),
                 new TreeNode(3),
-                new TreeNode(2)
+                new TreeNode(3)
+            },
+            {
+                new TreeNode(3, new TreeNode(1, right: new TreeNode(2)), new TreeNode(4)),
+                new TreeNode(2),
+                new TreeNode(4),
+                new TreeNode(3)
             },
         };
     }
