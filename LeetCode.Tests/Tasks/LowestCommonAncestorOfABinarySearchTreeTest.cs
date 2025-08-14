@@ -50,6 +50,12 @@ public class LowestCommonAncestorOfABinarySearchTreeTest
                 new TreeNode(1),
                 new TreeNode(2)
             },
+            {
+                new TreeNode(3, new TreeNode(1, right: new TreeNode(2)), new TreeNode(4)),
+                new TreeNode(2),
+                new TreeNode(3),
+                new TreeNode(2)
+            },
         };
     }
 }

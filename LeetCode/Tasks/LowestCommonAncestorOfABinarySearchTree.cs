@@ -18,6 +18,8 @@ namespace LeetCode.Tasks;
  */
 public class LowestCommonAncestorOfABinarySearchTree
 {
+    private TreeNode? lowest = null;
+
     public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
     {
         var leftNode = p.val < q.val ? p : q;
@@ -25,8 +27,8 @@ public class LowestCommonAncestorOfABinarySearchTree
 
         if (
             (root.left?.val == leftNode.val && root.right?.val == rightNode.val)
-            || (root.val == leftNode.val && root.right?.val == rightNode.val)
-            || (root.val == rightNode.val && root.left?.val == leftNode.val)
+            || root.val == leftNode.val
+            || root.val == rightNode.val
         )
         {
             return root;
