@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
-using LeetCode.Tasks;
+using LeetCode.Tasks.Backtracking;
 
-namespace LeetCode.Tests.Tasks;
+namespace LeetCode.Tests.Tasks.Backtracking;
 
 [TestSubject(typeof(WordSearch))]
 public class WordSearchTest

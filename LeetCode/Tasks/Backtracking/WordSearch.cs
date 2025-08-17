@@ -1,4 +1,4 @@
-namespace LeetCode.Tasks;
+namespace LeetCode.Tasks.Backtracking;
 
 /*
  * Word Search https://leetcode.com/problems/word-search/description/

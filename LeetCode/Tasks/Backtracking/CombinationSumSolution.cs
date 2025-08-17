@@ -1,4 +1,4 @@
-namespace LeetCode.Tasks;
+namespace LeetCode.Tasks.Backtracking;
 
 /*
  * Combination Sum https://leetcode.com/problems/combination-sum
