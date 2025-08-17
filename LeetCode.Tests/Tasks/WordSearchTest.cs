@@ -55,6 +55,26 @@ public class WordSearchTest
                 "aaa",
                 false
             },
+            {
+                [
+                    ['b'],
+                    ['a'],
+                    ['b'],
+                    ['b'],
+                    ['a'],
+                ],
+                "baa",
+                false
+            },
+            {
+                [
+                    ['C', 'A', 'A'],
+                    ['A', 'A', 'A'],
+                    ['B', 'C', 'D'],
+                ],
+                "AAB",
+                true
+            },
         };
     }
 }

@@ -50,6 +50,8 @@ public class WordSearch
         }
 
         var offsets = new[] { new[] { 0, 1 }, new[] { 1, 0 }, new[] { -1, 0 }, new[] { 0, -1 } };
+        var boardChar = board[currentRow][currentIndex];
+        board[currentRow][currentIndex] = '#';
 
         foreach (var offset in offsets)
         {
@@ -75,15 +77,13 @@ public class WordSearch
                 continue;
             }
 
-            board[currentRow][currentIndex] = '#';
-
             if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
             {
                 return true;
             }
-
-            board[currentRow][currentIndex] = currentBoardChar;
         }
+
+        board[currentRow][currentIndex] = boardChar;
 
         return false;
     }
