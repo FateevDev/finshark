@@ -48,6 +48,13 @@ public class WordSearchTest
                 "ABCB",
                 false
             },
+            {
+                [
+                    ['a', 'a'],
+                ],
+                "aaa",
+                false
+            },
         };
     }
 }

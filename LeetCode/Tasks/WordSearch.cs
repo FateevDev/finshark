@@ -75,14 +75,14 @@ public class WordSearch
                 continue;
             }
 
-            board[nextRow][nextIndex] = '#';
+            board[currentRow][currentIndex] = '#';
 
             if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
             {
                 return true;
             }
 
-            board[nextRow][nextIndex] = currentBoardChar;
+            board[currentRow][currentIndex] = currentBoardChar;
         }
 
         return false;
