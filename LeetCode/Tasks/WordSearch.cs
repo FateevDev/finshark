@@ -62,31 +62,37 @@ public class WordSearch
                     currentCharIndex++;
                 }
 
-                if (directionIndex > 3)
+                int nextRow, nextIndex;
+
+                if (directionIndex == 0)
+                {
+                    nextRow = row;
+                    nextIndex = index + 1;
+                }
+                else if (directionIndex == 1)
+                {
+                    nextRow = row + 1;
+                    nextIndex = index;
+                }
+                else if (directionIndex == 2)
+                {
+                    nextRow = row;
+                    nextIndex = index - 1;
+                }
+                else if (directionIndex == 3)
+                {
+                    nextRow = row - 1;
+                    nextIndex = index;
+                }
+                else
                 {
                     break;
                 }
-
-                var nextRow = directionIndex switch
-                {
-                    0 => row,
-                    1 => row + 1,
-                    2 => row,
-                    3 => row - 1,
-                };
 
                 if (nextRow > board.Length || nextRow < 0)
                 {
                     continue;
                 }
-
-                var nextIndex = directionIndex switch
-                {
-                    0 => index + 1,
-                    1 => index,
-                    2 => index - 1,
-                    3 => index,
-                };
 
                 if (nextIndex > currentRowLenght || nextIndex < 0)
                 {
