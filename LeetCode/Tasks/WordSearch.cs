@@ -70,13 +70,19 @@ public class WordSearch
             var currentWordIndex = wordIndex + 1;
             var currentWordChar = word[currentWordIndex];
 
-            if (currentBoardChar == currentWordChar)
+            if (currentBoardChar != currentWordChar)
             {
-                if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
-                {
-                    return true;
-                }
+                continue;
             }
+
+            board[nextRow][nextIndex] = '#';
+
+            if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
+            {
+                return true;
+            }
+
+            board[nextRow][nextIndex] = currentBoardChar;
         }
 
         return false;
