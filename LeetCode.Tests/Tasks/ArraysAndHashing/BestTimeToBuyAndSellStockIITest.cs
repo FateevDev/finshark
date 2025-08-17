@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
-using LeetCode.Tasks;
+using LeetCode.Tasks.ArraysAndHashing;
 
-namespace LeetCode.Tests.Tasks;
+namespace LeetCode.Tests.Tasks.ArraysAndHashing;
 
 [TestSubject(typeof(BestTimeToBuyAndSellStockII))]
 public class BestTimeToBuyAndSellStockIITest

@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
-using LeetCode.Tasks;
+using LeetCode.Tasks.ArraysAndHashing;
 
-namespace LeetCode.Tests.Tasks;
+namespace LeetCode.Tests.Tasks.ArraysAndHashing;
 
 [TestSubject(typeof(EncodeAndDecodeStrings))]
 public class EncodeAndDecodeStringsTest
@@ -34,7 +34,7 @@ public class EncodeAndDecodeStringsTest
         [
             new List<string> { "5:abc", "de2:fg" },
         ];
-        
+
         yield return
         [
             new List<string> { "" },

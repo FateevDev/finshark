@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace LeetCode.Tasks;
+namespace LeetCode.Tasks.ArraysAndHashing;
 
 /*
  * Encode and Decode Strings https://leetcode.com/problems/encode-and-decode-strings/
