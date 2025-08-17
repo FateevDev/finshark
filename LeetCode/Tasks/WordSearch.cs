@@ -16,13 +16,24 @@ public class WordSearch
 {
     public bool Exist(char[][] board, string word)
     {
-        var currentRow = 0;
-        var currentIndex = 0;
-        var currentCharIndex = 0;
-        var directions = new[] { "right", "down", "left", "up" };
-        var directionIndex = 0;
+        for (var row = 0; row < board.Length; row++)
+        {
+            for (var col = 0; col < board[row].Length; col++)
+            {
+                var currentBoardChar = board[row][col];
+                var currentWordChar = word[0];
 
-        return Backtrack(board, word, currentRow, currentIndex, currentCharIndex, directionIndex);
+                if (currentBoardChar == currentWordChar)
+                {
+                    if (Backtrack(board, word, row, col, 0))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private bool Backtrack(
@@ -30,76 +41,41 @@ public class WordSearch
         string word,
         int currentRow,
         int currentIndex,
-        int currentCharIndex,
-        int directionIndex
+        int wordIndex
     )
     {
-        if (currentCharIndex >= word.Length)
+        if (wordIndex == word.Length - 1)
         {
             return true;
         }
 
-        for (var row = currentRow; row < board.Length; row++)
+        var offsets = new[] { new[] { 0, 1 }, new[] { 1, 0 }, new[] { -1, 0 }, new[] { 0, -1 } };
+
+        foreach (var offset in offsets)
         {
-            var currentRowLenght = board[row].Length;
+            var nextRow = currentRow + offset[0];
+            var nextIndex = currentIndex + offset[1];
 
-            for (var index = currentIndex; index < currentRowLenght; index++)
+            if (
+                nextRow >= board.Length
+                || nextRow < 0
+                || nextIndex >= board[currentRow].Length
+                || nextIndex < 0
+            )
             {
-                var currentBoardChar = board[row][index];
-                var currentWordChar = word[currentCharIndex];
+                continue;
+            }
 
-                if (currentBoardChar != currentWordChar)
-                {
-                    if (currentCharIndex == 0)
-                    {
-                        continue;
-                    }
+            var currentBoardChar = board[nextRow][nextIndex];
+            var currentWordIndex = wordIndex + 1;
+            var currentWordChar = word[currentWordIndex];
 
-                    directionIndex++;
-                }
-                else
+            if (currentBoardChar == currentWordChar)
+            {
+                if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
                 {
-                    currentCharIndex++;
+                    return true;
                 }
-
-                int nextRow, nextIndex;
-
-                if (directionIndex == 0)
-                {
-                    nextRow = row;
-                    nextIndex = index + 1;
-                }
-                else if (directionIndex == 1)
-                {
-                    nextRow = row + 1;
-                    nextIndex = index;
-                }
-                else if (directionIndex == 2)
-                {
-                    nextRow = row;
-                    nextIndex = index - 1;
-                }
-                else if (directionIndex == 3)
-                {
-                    nextRow = row - 1;
-                    nextIndex = index;
-                }
-                else
-                {
-                    break;
-                }
-
-                if (nextRow > board.Length || nextRow < 0)
-                {
-                    continue;
-                }
-
-                if (nextIndex > currentRowLenght || nextIndex < 0)
-                {
-                    continue;
-                }
-
-                Backtrack(board, word, nextRow, nextIndex, currentCharIndex, directionIndex);
             }
         }
 
