@@ -34,8 +34,6 @@ namespace LeetCode.Tasks.Backtracking;
  */
 public class WordSearch
 {
-    private readonly int[][] _offsets = [[0, 1], [1, 0], [-1, 0], [0, -1]];
-
     public bool Exist(char[][] board, string word)
     {
         for (var row = 0; row < board.Length; row++)
@@ -66,46 +64,33 @@ public class WordSearch
         int wordIndex
     )
     {
-        if (wordIndex == word.Length - 1)
+        if (wordIndex == word.Length)
         {
             return true;
         }
 
-        var boardChar = board[currentRow][currentIndex];
-        board[currentRow][currentIndex] = '#';
-
-        foreach (var offset in _offsets)
+        if (
+            currentRow >= board.Length
+            || currentRow < 0
+            || currentIndex >= board[currentRow].Length
+            || currentIndex < 0
+            || board[currentRow][currentIndex] != word[wordIndex]
+        )
         {
-            var nextRow = currentRow + offset[0];
-            var nextIndex = currentIndex + offset[1];
-
-            if (
-                nextRow >= board.Length
-                || nextRow < 0
-                || nextIndex >= board[currentRow].Length
-                || nextIndex < 0
-            )
-            {
-                continue;
-            }
-
-            var currentBoardChar = board[nextRow][nextIndex];
-            var currentWordIndex = wordIndex + 1;
-            var currentWordChar = word[currentWordIndex];
-
-            if (currentBoardChar != currentWordChar)
-            {
-                continue;
-            }
-
-            if (Backtrack(board, word, nextRow, nextIndex, currentWordIndex))
-            {
-                return true;
-            }
+            return false;
         }
 
-        board[currentRow][currentIndex] = boardChar;
+        var currentBoardChar = board[currentRow][currentIndex];
+        board[currentRow][currentIndex] = '#';
 
-        return false;
+        var result =
+            Backtrack(board, word, currentRow, currentIndex + 1, wordIndex + 1)
+            || Backtrack(board, word, currentRow, currentIndex - 1, wordIndex + 1)
+            || Backtrack(board, word, currentRow + 1, currentIndex, wordIndex + 1)
+            || Backtrack(board, word, currentRow - 1, currentIndex, wordIndex + 1);
+
+        board[currentRow][currentIndex] = currentBoardChar;
+
+        return result;
     }
 }
